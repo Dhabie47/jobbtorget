@@ -3,351 +3,483 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jobbtorget – Alla jobb i Sverige</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Jobbtorget</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --sun: #FFB830; --orange: #E07000; --orange-deep: #C45500;
-    --cream: #FFFBF4; --text-dark: #1A0E00; --text-mid: #5C3D00;
-    --text-muted: #9A7040; --card-bg: rgba(255,255,255,0.88);
-    --border: rgba(255,160,60,0.25); --radius: 16px; --radius-sm: 10px; --radius-pill: 999px;
-  }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; overflow-x: hidden; }
-  #sun-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-  .page { position: relative; z-index: 1; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0D0D0D;--ink2:#3D3530;--ink3:#7A6E68;--ink4:#B0A69E;
+  --warm:#F7F3EE;--paper:#FDFAF7;
+  --accent:#C8520A;--accent2:#E8A87C;
+  --border:#E8E0D8;--card:#FFFFFF;
+  --radius:4px;--radius-lg:8px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-  header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.25rem 2.5rem; position: sticky; top: 0; z-index: 100;
-    background: rgba(255,251,244,0.78); backdrop-filter: blur(16px);
-    border-bottom: 0.5px solid var(--border);
-  }
-  .logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--orange-deep); letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
-  .logo-dot { width: 10px; height: 10px; background: var(--sun); border-radius: 50%; animation: pulse-dot 2.5s ease-in-out infinite; }
-  @keyframes pulse-dot { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.5);opacity:0.65} }
-  nav { display: flex; gap: 1.5rem; align-items: center; }
-  nav a { font-size: 14px; color: var(--text-mid); text-decoration: none; font-weight: 500; transition: color 0.2s; }
-  nav a:hover { color: var(--orange); }
-  .btn-primary { background: var(--orange); color: #fff; border: none; padding: 0.55rem 1.25rem; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.2s,transform 0.15s; text-decoration: none; display: inline-block; }
-  .btn-primary:hover { background: var(--orange-deep); transform: translateY(-1px); }
+/* ── ENTRY SCREEN ── */
+.entry-outer{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;background:var(--ink);overflow:hidden;transition:opacity 0.6s ease,transform 0.6s ease;align-items:center}
+.entry-outer.leaving{opacity:0;transform:translateY(-8px);pointer-events:none}
 
-  .hero { min-height: 78vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6rem 2rem 3rem; }
-  .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,180,60,0.15); border: 0.5px solid rgba(255,160,60,0.4); border-radius: var(--radius-pill); padding: 5px 14px; font-size: 12px; font-weight: 600; color: var(--orange-deep); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 1.5rem; opacity: 0; animation: fade-up 0.7s ease 0.2s forwards; }
-  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem,7vw,5rem); line-height: 1.08; color: var(--text-dark); max-width: 720px; margin-bottom: 1.5rem; opacity: 0; animation: fade-up 0.7s ease 0.35s forwards; }
-  .hero h1 em { color: var(--orange); font-style: normal; }
+.entry-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 60%,rgba(200,82,10,0.15) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(232,168,124,0.08) 0%,transparent 50%);pointer-events:none}
 
-  /* BIGGER subtitle */
-  .hero-sub { font-size: clamp(19px,2.4vw,23px); color: var(--text-mid); max-width: 640px; line-height: 1.62; margin-bottom: 2.5rem; font-weight: 400; opacity: 0; animation: fade-up 0.7s ease 0.5s forwards; }
-  .hero-sub strong { color: var(--orange-deep); font-weight: 600; }
+.entry-inner{position:relative;z-index:1;display:flex;flex-direction:column;height:100vh;padding:2.5rem;max-width:1200px;margin:0 auto;width:100%}
+.entry-outer{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;background:var(--ink);overflow:hidden;transition:opacity 0.6s ease,transform 0.6s ease;align-items:center}
 
-  @keyframes fade-up { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+.entry-top{display:flex;align-items:center;justify-content:space-between}
+.entry-logo{font-family:'Playfair Display',serif;font-size:1.25rem;color:#FDF8F4;letter-spacing:0.02em}
+.entry-logo span{color:var(--accent2)}
 
-  .search-wrap { width: 100%; max-width: 630px; opacity: 0; animation: fade-up 0.7s ease 0.65s forwards; }
-  .search-box { display: flex; background: rgba(255,255,255,0.97); border: 1.5px solid rgba(255,160,60,0.45); border-radius: var(--radius-pill); overflow: hidden; box-shadow: 0 10px 40px rgba(224,112,0,0.14); transition: box-shadow 0.2s,border-color 0.2s; }
-  .search-box:focus-within { border-color: var(--orange); box-shadow: 0 10px 48px rgba(224,112,0,0.22); }
-  .search-box input { flex: 1; border: none; outline: none; padding: 1.05rem 1.5rem; font-size: 16px; font-family: inherit; background: transparent; color: var(--text-dark); }
-  .search-box input::placeholder { color: var(--text-muted); }
-  .search-box button { background: var(--orange); color: #fff; border: none; padding: 0 1.75rem; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; border-radius: 0 var(--radius-pill) var(--radius-pill) 0; transition: background 0.2s; display: flex; align-items: center; gap: 8px; }
-  .search-box button:hover { background: var(--orange-deep); }
+.entry-langs{display:flex;gap:6px}
+.elang{padding:4px 12px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.15);background:transparent;color:rgba(255,255,255,0.5);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all 0.2s;letter-spacing:0.05em}
+.elang:hover,.elang.active{border-color:var(--accent2);color:var(--accent2)}
 
-  .lang-row { display: flex; gap: 8px; margin-top: 1.25rem; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fade-up 0.7s ease 0.8s forwards; }
-  .lang-pill { padding: 6px 16px; border-radius: var(--radius-pill); border: 0.5px solid var(--border); background: rgba(255,255,255,0.78); color: var(--text-muted); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; user-select: none; }
-  .lang-pill:hover { background: rgba(255,255,255,0.95); color: var(--orange); border-color: rgba(255,160,60,0.5); }
-  .lang-pill.active { background: var(--orange); color: #fff; border-color: var(--orange); }
+.entry-center{flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;max-width:680px;padding:0 0 4rem}
 
-  .stats { display: flex; justify-content: center; gap: 3rem; padding: 2rem; opacity: 0; animation: fade-up 0.7s ease 1s forwards; }
-  .stat { text-align: center; }
-  .stat-n { font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: var(--orange); line-height: 1; }
-  .stat-l { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+.entry-kicker{font-size:11px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent2);margin-bottom:2rem;opacity:0;animation:slideIn 0.6s ease 0.2s forwards}
 
-  .jobs-section { max-width: 780px; margin: 0 auto; padding: 0 1.5rem 5rem; }
-  .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1rem; }
-  .section-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text-dark); }
-  .section-link { font-size: 13px; color: var(--orange); text-decoration: none; font-weight: 500; }
+.entry-q{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:400;color:#FDF8F4;line-height:1.15;margin-bottom:0.5rem;opacity:0;animation:slideIn 0.6s ease 0.4s forwards}
+.entry-q em{color:var(--accent2);font-style:italic}
 
-  .filters { display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
-  .chip { padding: 5px 15px; border-radius: var(--radius-pill); border: 0.5px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.72); color: var(--text-muted); font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.18s; }
-  .chip.active, .chip:hover { background: #FFF3E0; color: var(--orange-deep); border-color: rgba(255,160,60,0.5); }
+.entry-hint{font-size:15px;color:rgba(255,255,255,0.35);margin-bottom:3rem;opacity:0;animation:slideIn 0.6s ease 0.55s forwards}
 
-  .job-list { display: flex; flex-direction: column; gap: 10px; }
-  .job-card { background: var(--card-bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: all 0.2s; backdrop-filter: blur(8px); text-decoration: none; color: inherit; }
-  .job-card:hover { border-color: rgba(255,140,0,0.55); background: rgba(255,255,255,0.98); transform: translateY(-2px); box-shadow: 0 6px 28px rgba(224,112,0,0.11); }
-  .job-logo { width: 46px; height: 46px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; border: 0.5px solid var(--border); }
-  .job-body { flex: 1; min-width: 0; }
-  .job-title { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .job-meta { font-size: 13px; color: var(--text-muted); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .badge { font-size: 11px; padding: 2px 9px; border-radius: var(--radius-pill); font-weight: 600; }
-  .badge-new    { background: #FFF3E0; color: #C46A00; }
-  .badge-remote { background: #E1F5EE; color: #0F6E56; }
-  .badge-full   { background: #E6F1FB; color: #185FA5; }
-  .job-source { font-size: 11px; color: var(--text-muted); margin-left: auto; white-space: nowrap; }
-  .job-arrow { color: var(--text-muted); font-size: 20px; flex-shrink: 0; }
+.entry-input-wrap{position:relative;width:100%;max-width:520px;opacity:0;animation:slideIn 0.6s ease 0.7s forwards}
+.entry-input{width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.2);border-radius:var(--radius);padding:1.1rem 5rem 1.1rem 1.5rem;font-size:16px;font-family:inherit;color:#FDF8F4;outline:none;transition:border-color 0.2s,background 0.2s;letter-spacing:0.01em}
+.entry-input::placeholder{color:rgba(255,255,255,0.25)}
+.entry-input:focus{border-color:var(--accent2);background:rgba(255,255,255,0.08)}
+.entry-btn{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:var(--accent);color:#fff;border:none;border-radius:var(--radius);padding:0.65rem 1.25rem;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:background 0.2s;letter-spacing:0.04em;text-transform:uppercase}
+.entry-btn:hover{background:#A8420A}
 
-  .skeleton { background: linear-gradient(90deg,rgba(255,200,100,0.12)25%,rgba(255,200,100,0.24)50%,rgba(255,200,100,0.12)75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; }
-  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-  .skeleton-card { background: var(--card-bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; display: flex; gap: 1rem; align-items: center; }
+.entry-shortcuts{display:flex;flex-wrap:wrap;gap:8px;margin-top:1.25rem;opacity:0;animation:slideIn 0.6s ease 0.85s forwards}
+.eshort{padding:6px 14px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.4);font-size:13px;font-weight:400;cursor:pointer;font-family:inherit;transition:all 0.2s;background:transparent}
+.eshort:hover{border-color:rgba(255,255,255,0.35);color:rgba(255,255,255,0.8)}
 
-  .api-banner { background: rgba(255,255,255,0.72); border: 0.5px solid rgba(24,95,165,0.22); border-radius: var(--radius); padding: 0.85rem 1.25rem; display: flex; align-items: center; gap: 12px; margin-bottom: 1.25rem; backdrop-filter: blur(8px); font-size: 13px; color: #185FA5; }
-  .api-dot { width: 8px; height: 8px; border-radius: 50%; background: #1D9E75; flex-shrink: 0; animation: pulse-dot 1.8s ease-in-out infinite; }
+.entry-skip{margin-top:2rem;font-size:13px;color:rgba(255,255,255,0.25);cursor:pointer;letter-spacing:0.04em;opacity:0;animation:slideIn 0.6s ease 1s forwards;width:fit-content;transition:color 0.2s}
+.entry-skip:hover{color:rgba(255,255,255,0.5)}
 
-  .cta-bar { background: linear-gradient(135deg,rgba(255,180,60,0.18),rgba(255,120,0,0.09)); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.35rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.5rem; backdrop-filter: blur(8px); }
-  .cta-bar p { font-size: 15px; color: var(--text-mid); line-height: 1.5; }
-  .cta-bar strong { color: var(--text-dark); font-weight: 600; }
+.entry-bottom{display:flex;align-items:center;gap:1rem}
+.entry-stat{font-size:12px;color:rgba(255,255,255,0.2);letter-spacing:0.05em}
+.entry-stat strong{color:rgba(255,255,255,0.5);font-weight:500}
 
-  footer { text-align: center; padding: 2rem; font-size: 13px; color: var(--text-muted); border-top: 0.5px solid var(--border); }
-  .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--text-dark); color: #fff; padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; opacity: 0; transform: translateY(10px); transition: all 0.3s; z-index: 200; pointer-events: none; }
-  .toast.show { opacity: 1; transform: translateY(0); }
+@keyframes slideIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── MAIN APP ── */
+#app{display:none}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(253,250,247,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border);padding:0 2rem}
+.topbar-inner{max-width:1100px;margin:0 auto;height:56px;display:flex;align-items:center;gap:2rem}
+.app-logo{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ink);cursor:pointer;flex-shrink:0}
+.app-logo span{color:var(--accent)}
+
+.search-bar{flex:1;max-width:480px;display:flex;align-items:center;gap:0;background:var(--warm);border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color 0.2s}
+.search-bar:focus-within{border-color:var(--ink3)}
+.search-bar input{flex:1;border:none;outline:none;padding:0.6rem 1rem;font-size:14px;font-family:inherit;background:transparent;color:var(--ink)}
+.search-bar input::placeholder{color:var(--ink4)}
+.search-bar button{background:transparent;border:none;border-left:0.5px solid var(--border);padding:0 1rem;cursor:pointer;color:var(--ink3);font-size:13px;font-weight:500;font-family:inherit;height:100%;transition:background 0.15s}
+.search-bar button:hover{background:var(--border)}
+
+.topbar-langs{display:flex;gap:4px;margin-left:auto}
+.tlang{padding:4px 10px;border-radius:2px;border:0.5px solid transparent;color:var(--ink4);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all 0.15s;letter-spacing:0.04em}
+.tlang:hover{color:var(--ink2);border-color:var(--border)}
+.tlang.active{color:var(--accent);border-color:var(--accent);background:rgba(200,82,10,0.06)}
+
+/* LAYOUT */
+.app-layout{max-width:1100px;margin:0 auto;padding:2rem;display:grid;grid-template-columns:220px 1fr;gap:2.5rem}
+
+/* SIDEBAR */
+.sidebar{position:sticky;top:72px;height:fit-content}
+.sidebar-section{margin-bottom:2rem}
+.sidebar-label{font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink4);margin-bottom:0.75rem}
+.filter-group{display:flex;flex-direction:column;gap:2px}
+.fitem{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;border-radius:var(--radius);cursor:pointer;font-size:13px;color:var(--ink2);transition:all 0.15s;border:0.5px solid transparent}
+.fitem:hover{background:var(--warm);border-color:var(--border)}
+.fitem.active{background:rgba(200,82,10,0.08);border-color:rgba(200,82,10,0.2);color:var(--accent)}
+.fitem-count{font-size:11px;color:var(--ink4);font-weight:400}
+.fitem.active .fitem-count{color:rgba(200,82,10,0.6)}
+
+.active-query{background:rgba(200,82,10,0.06);border:0.5px solid rgba(200,82,10,0.2);border-radius:var(--radius);padding:8px 12px;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--ink2)}
+.aq-x{color:var(--ink4);cursor:pointer;font-size:16px;line-height:1;transition:color 0.15s}
+.aq-x:hover{color:var(--accent)}
+
+/* MAIN CONTENT */
+.results-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.results-count{font-size:13px;color:var(--ink3)}
+.results-count strong{color:var(--ink);font-weight:500}
+
+.sort-select{font-size:13px;color:var(--ink3);border:0.5px solid var(--border);border-radius:var(--radius);padding:5px 10px;background:var(--paper);font-family:inherit;cursor:pointer;outline:none}
+
+.job-list{display:flex;flex-direction:column;gap:1px;border:0.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;background:var(--border)}
+
+.job-card{background:var(--card);padding:1.25rem 1.5rem;display:flex;align-items:flex-start;gap:1.25rem;cursor:pointer;transition:background 0.15s;text-decoration:none;color:inherit;border-bottom:0.5px solid var(--border)}
+.job-card:last-child{border-bottom:none}
+.job-card:hover{background:var(--warm)}
+
+.job-logo{width:40px;height:40px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;border:0.5px solid var(--border);font-family:'Outfit',sans-serif}
+
+.job-body{flex:1;min-width:0}
+.job-title{font-size:15px;font-weight:500;color:var(--ink);margin-bottom:4px;line-height:1.3}
+.job-company{font-size:13px;color:var(--ink3);margin-bottom:6px}
+.job-tags{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.jtag{font-size:11px;padding:2px 8px;border-radius:2px;border:0.5px solid var(--border);color:var(--ink3);background:var(--warm);font-weight:400;letter-spacing:0.02em}
+.jtag-new{border-color:rgba(200,82,10,0.3);color:var(--accent);background:rgba(200,82,10,0.05)}
+.jtag-remote{border-color:rgba(15,110,86,0.3);color:#0F6E56;background:rgba(15,110,86,0.05)}
+
+.job-right{text-align:right;flex-shrink:0}
+.job-date{font-size:11px;color:var(--ink4);margin-bottom:4px}
+.job-deadline{font-size:11px;color:var(--ink4)}
+
+/* SKELETON */
+.skel{background:linear-gradient(90deg,var(--warm)25%,var(--border)50%,var(--warm)75%);background-size:200% 100%;animation:sk 1.5s infinite;border-radius:var(--radius)}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-card{background:var(--card);padding:1.25rem 1.5rem;display:flex;gap:1.25rem;border-bottom:0.5px solid var(--border)}
+
+/* PAGINATION */
+.pag{display:flex;justify-content:center;gap:4px;margin-top:2rem}
+.pag-btn{width:36px;height:36px;border-radius:var(--radius);border:0.5px solid var(--border);background:var(--paper);color:var(--ink3);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:all 0.15s;display:flex;align-items:center;justify-content:center}
+.pag-btn:hover{border-color:var(--ink3);color:var(--ink)}
+.pag-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* EMPTY */
+.empty{padding:5rem 2rem;text-align:center;color:var(--ink3)}
+.empty-title{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--ink);margin-bottom:0.5rem}
+
+footer{text-align:center;padding:2rem;font-size:12px;color:var(--ink4);border-top:0.5px solid var(--border);letter-spacing:0.04em}
+
+@media(max-width:720px){
+  .app-layout{grid-template-columns:1fr;padding:1rem}
+  .sidebar{position:static;display:flex;gap:1rem;flex-wrap:wrap}
+  .sidebar-section{margin-bottom:0}
+  .filter-group{flex-direction:row;flex-wrap:wrap}
+  .topbar-langs{display:none}
+  .topbar-inner{gap:1rem}
+}
 </style>
 </head>
 <body>
-<canvas id="sun-canvas"></canvas>
-<div class="page">
-  <header>
-    <div class="logo"><span class="logo-dot"></span> Jobbtorget</div>
-    <nav>
-      <a href="#" id="nav-browse">Bläddra jobb</a>
-      <a href="#" id="nav-saved">Spara jobb</a>
-      <a href="#" id="nav-profile">Min profil</a>
-      <a href="#" class="btn-primary" id="nav-signup">Skapa konto</a>
-    </nav>
-  </header>
 
-  <section class="hero">
-    <div class="hero-badge" id="hero-badge">🌤 Uppdateras i realtid</div>
-    <h1 id="h1-text">Alla jobb i Sverige.<br><em>På ett ställe.</em></h1>
-    <p class="hero-sub" id="hero-sub">Vi samlar annonser från <strong>Platsbanken</strong>, <strong>Junic</strong>, <strong>One Partner</strong> och hundratals arbetsgivare – direkt till dig, på ditt eget språk.</p>
-
-    <div class="search-wrap">
-      <div class="search-box">
-        <input type="text" id="search-input" placeholder="Sök jobb, titel eller plats..." />
-        <button onclick="searchJobs()">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          <span id="btn-search-text">Sök</span>
-        </button>
-      </div>
-      <div class="lang-row" id="lang-row">
-        <span class="lang-pill active" data-lang="sv">🇸🇪 Svenska</span>
-        <span class="lang-pill" data-lang="en">🇬🇧 English</span>
-        <span class="lang-pill" data-lang="ar">🇸🇦 العربية</span>
-        <span class="lang-pill" data-lang="so">🇸🇴 Soomaali</span>
-        <span class="lang-pill" data-lang="es">🇪🇸 Español</span>
-        <span class="lang-pill" data-lang="fa">🇦🇫 دری</span>
+<!-- ENTRY SCREEN -->
+<div id="entry" class="entry-outer">
+  <div class="entry-bg"></div>
+  <canvas id="particles" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0"></canvas>
+  <div class="entry-inner">
+    <div class="entry-top">
+      <div class="entry-logo">Jobb<span>torget</span></div>
+      <div class="entry-langs" id="entry-langs">
+        <button class="elang active" data-lang="sv">SV</button>
+        <button class="elang" data-lang="en">EN</button>
+        <button class="elang" data-lang="ar">AR</button>
+        <button class="elang" data-lang="so">SO</button>
+        <button class="elang" data-lang="es">ES</button>
+        <button class="elang" data-lang="fa">FA</button>
       </div>
     </div>
-  </section>
 
-  <div class="stats">
-    <div class="stat"><div class="stat-n" id="count-total">–</div><div class="stat-l" id="lbl-total">Aktiva annonser</div></div>
-    <div class="stat"><div class="stat-n" id="count-sources">–</div><div class="stat-l" id="lbl-sources">Källor samlade</div></div>
-    <div class="stat"><div class="stat-n" id="count-today">–</div><div class="stat-l" id="lbl-today">Nya idag</div></div>
+    <div class="entry-center">
+      <div class="entry-kicker" id="e-kicker">Alla jobb i Sverige</div>
+      <h1 class="entry-q" id="e-q">Vad letar du<br>efter <em>idag?</em></h1>
+      <p class="entry-hint" id="e-hint">Skriv en jobbtitel, ort eller bransch</p>
+
+      <div class="entry-input-wrap">
+        <input class="entry-input" id="entry-input" placeholder="T.ex. sjuksköterska, Stockholm, IT..." autocomplete="off" />
+        <button class="entry-btn" id="entry-btn" onclick="doEntry()">Sök</button>
+      </div>
+
+      <div class="entry-shortcuts" id="entry-shortcuts">
+        <button class="eshort" onclick="quickSearch('Lager')">Lager</button>
+        <button class="eshort" onclick="quickSearch('Vård')">Vård & Omsorg</button>
+        <button class="eshort" onclick="quickSearch('IT')">IT</button>
+        <button class="eshort" onclick="quickSearch('Butik')">Butik & Handel</button>
+        <button class="eshort" onclick="quickSearch('Transport')">Transport</button>
+        <button class="eshort" onclick="quickSearch('Bygg')">Bygg</button>
+        <button class="eshort" onclick="quickSearch('Kontor')">Kontor</button>
+        <button class="eshort" onclick="quickSearch('Restaurang')">Restaurang</button>
+      </div>
+
+      <div class="entry-skip" id="e-skip" onclick="openApp('')">Visa alla lediga jobb →</div>
+    </div>
+
+    <div class="entry-bottom">
+      <div class="entry-stat" id="e-stat1"><strong id="e-count">–</strong> aktiva annonser</div>
+      <div class="entry-stat">·</div>
+      <div class="entry-stat">Uppdateras kontinuerligt</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="app-logo" onclick="goHome()">Jobb<span>torget</span></div>
+      <div class="search-bar">
+        <input type="text" id="app-search" placeholder="Sök jobb, ort eller bransch..." />
+        <button onclick="appSearch()">Sök</button>
+      </div>
+      <div class="topbar-langs" id="top-langs">
+        <button class="tlang active" data-lang="sv">SV</button>
+        <button class="tlang" data-lang="en">EN</button>
+        <button class="tlang" data-lang="ar">AR</button>
+        <button class="tlang" data-lang="so">SO</button>
+        <button class="tlang" data-lang="es">ES</button>
+        <button class="tlang" data-lang="fa">FA</button>
+      </div>
+    </div>
   </div>
 
-  <section class="jobs-section">
-    <div class="api-banner">
-      <div class="api-dot"></div>
-      <span id="api-banner-text">Ansluten till Arbetsförmedlingens öppna API – hämtar riktiga jobbannonser</span>
-    </div>
-    <div class="section-header">
-      <h2 class="section-title" id="lbl-latest">Senaste jobben</h2>
-      <a href="#" class="section-link" id="lbl-showall">Visa alla →</a>
-    </div>
-    <div class="filters">
-      <button class="chip active" onclick="filterJobs(this,'alla')" id="chip-alla">Alla</button>
-      <button class="chip" onclick="filterJobs(this,'heltid')" id="chip-heltid">Heltid</button>
-      <button class="chip" onclick="filterJobs(this,'deltid')" id="chip-deltid">Deltid</button>
-      <button class="chip" onclick="filterJobs(this,'distans')" id="chip-distans">Distans</button>
-    </div>
-    <div class="job-list" id="job-list">
-      <div class="skeleton-card"><div class="skeleton" style="width:46px;height:46px;border-radius:10px;flex-shrink:0"></div><div style="flex:1"><div class="skeleton" style="height:14px;width:60%;margin-bottom:8px"></div><div class="skeleton" style="height:12px;width:40%"></div></div></div>
-      <div class="skeleton-card"><div class="skeleton" style="width:46px;height:46px;border-radius:10px;flex-shrink:0"></div><div style="flex:1"><div class="skeleton" style="height:14px;width:50%;margin-bottom:8px"></div><div class="skeleton" style="height:12px;width:35%"></div></div></div>
-      <div class="skeleton-card"><div class="skeleton" style="width:46px;height:46px;border-radius:10px;flex-shrink:0"></div><div style="flex:1"><div class="skeleton" style="height:14px;width:70%;margin-bottom:8px"></div><div class="skeleton" style="height:12px;width:45%"></div></div></div>
-    </div>
-    <div class="cta-bar">
-      <p id="cta-text"><strong>Missa aldrig ett jobb.</strong> Skapa ett konto och få nya annonser direkt – på ditt eget språk.</p>
-      <button class="btn-primary" id="cta-btn">Kom igång gratis</button>
-    </div>
-  </section>
-  <footer>© 2026 Jobbtorget · <a href="#" style="color:var(--orange)" id="footer-privacy">Integritetspolicy</a></footer>
-</div>
-<div class="toast" id="toast"></div>
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div id="active-query-wrap"></div>
 
-<script>
-/* ── ANIMATED SUN – bigger, lower, breathes ── */
-const canvas = document.getElementById('sun-canvas');
-const ctx = canvas.getContext('2d');
-let W, H, t = 0;
-function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-resize(); window.addEventListener('resize', resize);
-
-function drawSun() {
-  ctx.clearRect(0, 0, W, H); t += 0.007;
-  const cx = W * 0.5;
-  const cy = H * 0.42 + Math.sin(t * 0.5) * 18;   // lower on page
-  const breathe = 1 + Math.sin(t * 0.8) * 0.025;
-  const R = Math.min(W, H) * 0.80 * breathe;        // much bigger
-
-  for (let i = 4; i >= 0; i--) {
-    const r = R * (1 + i * 0.22); const alpha = 0.055 - i * 0.01;
-    const g = ctx.createRadialGradient(cx, cy, R*0.2, cx, cy, r);
-    g.addColorStop(0, `rgba(255,190,65,${alpha})`); g.addColorStop(1, 'rgba(255,185,60,0)');
-    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fillStyle = g; ctx.fill();
-  }
-  const rayCount = 20;
-  ctx.save(); ctx.translate(cx, cy); ctx.rotate(t * 0.09);
-  for (let i = 0; i < rayCount; i++) {
-    const angle = (i / rayCount) * Math.PI * 2;
-    const len = R * (0.82 + 0.18 * Math.sin(t*1.2 + i*0.7));
-    const w = R * 0.055;
-    ctx.save(); ctx.rotate(angle);
-    const rg = ctx.createLinearGradient(R*0.42, 0, len, 0);
-    rg.addColorStop(0, 'rgba(255,200,75,0.28)'); rg.addColorStop(1, 'rgba(255,165,40,0)');
-    ctx.beginPath(); ctx.moveTo(R*0.42,-w/2); ctx.lineTo(len,0); ctx.lineTo(R*0.42,w/2);
-    ctx.fillStyle = rg; ctx.fill(); ctx.restore();
-  }
-  ctx.restore();
-  const core = ctx.createRadialGradient(cx, cy-R*0.07, R*0.04, cx, cy, R*0.5);
-  core.addColorStop(0, 'rgba(255,240,150,0.95)'); core.addColorStop(0.35,'rgba(255,210,85,0.80)');
-  core.addColorStop(0.7,'rgba(255,165,45,0.50)'); core.addColorStop(1,'rgba(255,130,20,0)');
-  ctx.beginPath(); ctx.arc(cx, cy, R*0.5, 0, Math.PI*2); ctx.fillStyle = core; ctx.fill();
-  const sky = ctx.createLinearGradient(0,0,0,H);
-  sky.addColorStop(0,'rgba(255,225,130,0.22)'); sky.addColorStop(0.45,'rgba(255,205,100,0.10)');
-  sky.addColorStop(0.85,'rgba(255,200,90,0.04)'); sky.addColorStop(1,'rgba(255,255,255,0)');
-  ctx.fillStyle = sky; ctx.fillRect(0,0,W,H);
-  requestAnimationFrame(drawSun);
-}
-drawSun();
-
-/* ── TRANSLATIONS ─������� */
-const LANGS = {
-  sv: { h1:'Alla jobb i Sverige.<br><em>På ett ställe.</em>', sub:'Vi samlar annonser från <strong>Platsbanken</strong>, <strong>Junic</strong>, <strong>One Partner</strong> och hundratals arbetsgivare – direkt till dig, på ditt eget språk.', search:'Sök', placeholder:'Sök jobb, titel eller plats...', latest:'Senaste jobben', showall:'Visa alla →', total:'Aktiva annonser', sources:'Källor samlade', today:'Nya idag', chipAlla:'Alla', chipHeltid:'Heltid', chipDeltid:'Deltid', chipDistans:'Distans', cta:'<strong>Missa aldrig ett jobb.</strong> Skapa ett konto och få nya annonser direkt.', ctaBtn:'Kom igång gratis', apiBanner:'Ansluten till Arbetsförmedlingens öppna API – hämtar riktiga jobbannonser', privacy:'Integritetspolicy', noJobs:'Inga jobb hittades. Prova en annan sökning.', badge:'🌤 Uppdateras i realtid', opening:'Öppnar', bNew:'Ny idag', bRemote:'Distans', bFull:'Heltid' },
-  en: { h1:'All jobs in Sweden.<br><em>In one place.</em>', sub:'We gather listings from <strong>Platsbanken</strong>, <strong>Junic</strong>, <strong>One Partner</strong> and hundreds of employers – delivered to you, in your language.', search:'Search', placeholder:'Search jobs, title or city...', latest:'Latest jobs', showall:'View all →', total:'Active listings', sources:'Sources gathered', today:'New today', chipAlla:'All', chipHeltid:'Full-time', chipDeltid:'Part-time', chipDistans:'Remote', cta:'<strong>Never miss a job.</strong> Create an account and receive new listings directly.', ctaBtn:'Get started free', apiBanner:'Connected to the Swedish Employment Agency open API', privacy:'Privacy policy', noJobs:'No jobs found. Try a different search.', badge:'🌤 Updated in real time', opening:'Opening', bNew:'New today', bRemote:'Remote', bFull:'Full-time' },
-  ar: { h1:'كل الوظائف في السويد.<br><em>في مكان واحد.</em>', sub:'نجمع الإعلانات من <strong>Platsbanken</strong> و<strong>Junic</strong> و<strong>One Partner</strong> ومئات أصحاب العمل – مباشرةً إليك، بلغتك.', search:'بحث', placeholder:'ابحث عن وظيفة أو مدينة...', latest:'أحدث الوظائف', showall:'عرض الكل →', total:'إعلانات نشطة', sources:'مصادر مجمّعة', today:'جديدة اليوم', chipAlla:'الكل', chipHeltid:'دوام كامل', chipDeltid:'دوام جزئي', chipDistans:'عن بُعد', cta:'<strong>لا تفوّت أي وظيفة.</strong> أنشئ حساباً واحصل على إعلانات جديدة.', ctaBtn:'ابدأ مجاناً', apiBanner:'متصل بواجهة برمجة وكالة التوظيف السويدية', privacy:'سياسة الخصوصية', noJobs:'ل�� توجد وظائف. جرّب بحثاً مختلفاً.', badge:'🌤 يُحدَّث في الوقت الفعلي', opening:'فتح', bNew:'جديد اليوم', bRemote:'عن بُعد', bFull:'دوام كامل' },
-  so: { h1:'Dhammaan shaqooyinka Iswiidhan.<br><em>Meel kaliya.</em>', sub:'Waxaan ururinaa xayeysiisyada <strong>Platsbanken</strong>, <strong>Junic</strong>, <strong>One Partner</strong> iyo boqolaal shirkad – si toos ah kuugu geeya, luqaddaada.', search:'Raadi', placeholder:'Raadi shaqo, cinwaan ama magaalo...', latest:'Shaqooyinka ugu dambeeyay', showall:'Arag dhammaan →', total:'Xayeysiisyo firfircoon', sources:'Ilo la soo ururiyay', today:'Cusub maanta', chipAlla:'Dhammaan', chipHeltid:'Waqti buuxa', chipDeltid:'Waqti qaarkiis', chipDistans:'Fog', cta:'<strong>Ha ka maqnaanin shaqo.</strong> Samee akoon oo hel xayeysiisyo cusub.', ctaBtn:'Bilow bilaash', apiBanner:'Ku xidnaa API-ga Arbetsförmedlingen', privacy:'Siyaasadda Gaarka', noJobs:'Shaqo lama helin. Isku day raadin kale.', badge:'🌤 Waa la cusbooneysiiyaa xilli walba', opening:'Furtay', bNew:'Cusub maanta', bRemote:'Fog', bFull:'Waqti buuxa' },
-  es: { h1:'Todos los empleos en Suecia.<br><em>En un solo lugar.</em>', sub:'Reunimos anuncios de <strong>Platsbanken</strong>, <strong>Junic</strong>, <strong>One Partner</strong> y cientos de empleadores – directo a ti, en tu idioma.', search:'Buscar', placeholder:'Busca empleo, título o ciudad...', latest:'Últimos empleos', showall:'Ver todos →', total:'Anuncios activos', sources:'Fuentes reunidas', today:'Nuevos hoy', chipAlla:'Todos', chipHeltid:'Tiempo completo', chipDeltid:'Tiempo parcial', chipDistans:'Remoto', cta:'<strong>No te pierdas ningún empleo.</strong> Crea una cuenta y recibe nuevos anuncios.', ctaBtn:'Comenzar gratis', apiBanner:'Conectado a la API de Arbetsförmedlingen', privacy:'Política de privacidad', noJobs:'No se encontraron empleos. Prueba otra búsqueda.', badge:'🌤 Actualizado en tiempo real', opening:'Abriendo', bNew:'Nuevo hoy', bRemote:'Remoto', bFull:'Tiempo completo' },
-  fa: { h1:'همه مشاغل در سوئد.<br><em>در یک مکان.</em>', sub:'ما آگهی‌ها را از <strong>Platsbanken</strong>، <strong>Junic</strong>، <strong>One Partner</strong> و صدها کارفرما جمع می‌کنیم – مستقیم به شما، به زبان خودتان.', search:'جستجو', placeholder:'جستجوی شغل، عنوان یا شهر...', latest:'آخرین مشاغل', showall:'مشاهده همه →', total:'آگهی‌های فعال', sources:'منابع جمع‌آوری‌شده', today:'جدید امروز', chipAlla:'همه', chipHeltid:'تمام وقت', chipDeltid:'پاره وقت', chipDistans:'ا�� راه ��ور', cta:'<strong>هیچ شغلی را از دست ندهید.</strong> یک حساب بسازید و آگهی‌های جدید را دریافت کنید.', ctaBtn:'شروع رایگان', apiBanner:'متصل به API باز Arbetsförmedlingen', privacy:'سیاست حریم خصوصی', noJobs:'هیچ شغلی یافت نشد. جستجوی دیگری امتحان کنید.', badge:'🌤 به‌روزرسانی در زمان واقعی', opening:'باز کردن', bNew:'جدید امروز', bRemote:'از راه دور', bFull:'تمام وقت' }
-};
-
-let currentLang = 'sv';
-
-function applyLang(lang) {
-  currentLang = lang;
-  const T = LANGS[lang];
-  const rtl = ['ar','fa'].includes(lang);
-  document.documentElement.lang = lang;
-  document.documentElement.dir = rtl ? 'rtl' : 'ltr';
-  document.getElementById('h1-text').innerHTML = T.h1;
-  document.getElementById('hero-sub').innerHTML = T.sub;
-  document.getElementById('hero-badge').textContent = T.badge;
-  document.getElementById('btn-search-text').textContent = T.search;
-  document.getElementById('search-input').placeholder = T.placeholder;
-  document.getElementById('lbl-latest').textContent = T.latest;
-  document.getElementById('lbl-showall').textContent = T.showall;
-  document.getElementById('lbl-total').textContent = T.total;
-  document.getElementById('lbl-sources').textContent = T.sources;
-  document.getElementById('lbl-today').textContent = T.today;
-  document.getElementById('chip-alla').textContent = T.chipAlla;
-  document.getElementById('chip-heltid').textContent = T.chipHeltid;
-  document.getElementById('chip-deltid').textContent = T.chipDeltid;
-  document.getElementById('chip-distans').textContent = T.chipDistans;
-  document.getElementById('cta-text').innerHTML = T.cta;
-  document.getElementById('cta-btn').textContent = T.ctaBtn;
-  document.getElementById('api-banner-text').textContent = T.apiBanner;
-  document.getElementById('footer-privacy').textContent = T.privacy;
-  renderJobs();
-}
-
-document.getElementById('lang-row').addEventListener('click', e => {
-  const pill = e.target.closest('.lang-pill');
-  if (!pill) return;
-  document.querySelectorAll('.lang-pill').forEach(p => p.classList.remove('active'));
-  pill.classList.add('active');
-  applyLang(pill.dataset.lang);
-});
-
-/* ── JOB DATA ── */
-const JOBS = [
-  { id:1,  title:'Lagermedarbetare',           company:'IKEA Sverige',             city:'Göteborg',  type:'heltid',  badge:'new',    source:'Platsbanken',   logo:'IK', lc:'#FFF3E0', lt:'#C46A00' },
-  { id:2,  title:'Systemutvecklare – Backend',  company:'Junic AB',                 city:'Stockholm', type:'distans', badge:'remote', source:'Junic',         logo:'JN', lc:'#E1F5EE', lt:'#0F6E56' },
-  { id:3,  title:'Ekonomiassistent',            company:'One Partner Group',        city:'Malmö',     type:'heltid',  badge:'full',   source:'One Partner',   logo:'OP', lc:'#E6F1FB', lt:'#185FA5' },
-  { id:4,  title:'Sjuksköterska – Akuten',      company:'VGR',                      city:'Borås',     type:'heltid',  badge:'new',    source:'Arbetsgivaren', logo:'VG', lc:'#FBEAF0', lt:'#993556' },
-  { id:5,  title:'Barista & Café-medarbetare',  company:'Espresso House',           city:'Sundsvall', type:'deltid',  badge:'',       source:'Platsbanken',   logo:'EH', lc:'#FFF8EE', lt:'#8A4500' },
-  { id:6,  title:'IT-supporttekniker',          company:'Dustin AB',                city:'Stockholm', type:'heltid',  badge:'new',    source:'Arbetsgivaren', logo:'DU', lc:'#E6F1FB', lt:'#185FA5' },
-  { id:7,  title:'Personlig assistent',         company:'Humana',                   city:'Umeå',      type:'deltid',  badge:'',       source:'Platsbanken',   logo:'HU', lc:'#EEEDFE', lt:'#534AB7' },
-  { id:8,  title:'Frontend-utvecklare – React', company:'Klarna',                   city:'Stockholm', type:'distans', badge:'remote', source:'Arbetsgivaren', logo:'KL', lc:'#E1F5EE', lt:'#0F6E56' },
-];
-
-let currentFilter = 'alla';
-let allJobs = [...JOBS];
-
-async function loadJobs() {
-  try {
-    const res = await fetch('/api/jobs');
-    if (!res.ok) throw new Error();
-    const data = await res.json();
-    allJobs = data.jobs; updateStats(data.stats);
-  } catch {
-    allJobs = JOBS; updateStats({ total:24180, sources:340, today:1280 });
-  }
-  renderJobs();
-}
-
-function updateStats(s) {
-  animateCount('count-total',   typeof s.total==='number' ? s.total.toLocaleString('sv-SE') : s.total);
-  animateCount('count-sources', typeof s.sources==='number' ? s.sources+'+' : s.sources);
-  animateCount('count-today',   typeof s.today==='number' ? s.today.toLocaleString('sv-SE') : s.today);
-}
-
-function animateCount(id, val) {
-  const el = document.getElementById(id);
-  el.style.opacity = 0;
-  setTimeout(() => { el.textContent = val; el.style.transition = 'opacity 0.4s'; el.style.opacity = 1; }, 300);
-}
-
-function renderJobs() {
-  const T = LANGS[currentLang];
-  const query = document.getElementById('search-input').value.toLowerCase();
-  let filtered = allJobs.filter(j => {
-    const mf = currentFilter === 'alla' || j.type === currentFilter;
-    const mq = !query || j.title.toLowerCase().includes(query) || j.company.toLowerCase().includes(query) || j.city.toLowerCase().includes(query);
-    return mf && mq;
-  });
-  const list = document.getElementById('job-list');
-  if (!filtered.length) { list.innerHTML = `<div style="text-align:center;padding:3rem;color:var(--text-muted);font-size:15px;">${T.noJobs}</div>`; return; }
-  list.innerHTML = filtered.map((j,i) => `
-    <a class="job-card" href="#" style="animation:fade-up 0.4s ease ${i*0.06}s both" onclick="showToast('${T.opening}: ${j.title}');return false;">
-      <div class="job-logo" style="background:${j.lc};color:${j.lt}">${j.logo}</div>
-      <div class="job-body">
-        <div class="job-title">${j.title}</div>
-        <div class="job-meta">
-          <span>${j.company}</span><span>·</span><span>${j.city}</span>
-          ${j.badge==='new'    ? `<span class="badge badge-new">${T.bNew}</span>` : ''}
-          ${j.badge==='remote' ? `<span class="badge badge-remote">${T.bRemote}</span>` : ''}
-          ${j.badge==='full'   ? `<span class="badge badge-full">${T.bFull}</span>` : ''}
-          <span class="job-source">via ${j.source}</span>
+      <div class="sidebar-section">
+        <div class="sidebar-label" id="sl-type">Anställningsform</div>
+        <div class="filter-group" id="type-filters">
+          <div class="fitem active" onclick="setType('alla',this)" id="ft-alla">Alla typer</div>
+          <div class="fitem" onclick="setType('heltid',this)" id="ft-heltid">Heltid</div>
+          <div class="fitem" onclick="setType('deltid',this)" id="ft-deltid">Deltid</div>
+          <div class="fitem" onclick="setType('distans',this)" id="ft-distans">Distans</div>
         </div>
       </div>
-      <span class="job-arrow">›</span>
-    </a>`).join('');
+
+      <div class="sidebar-section">
+        <div class="sidebar-label" id="sl-city">Ort</div>
+        <div class="filter-group" id="city-filters">
+          <div class="fitem active" onclick="setCity('',this)">Alla orter</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CONTENT -->
+    <main>
+      <div class="results-bar">
+        <div class="results-count" id="results-count"></div>
+      </div>
+      <div class="job-list" id="job-list">
+        <div class="skel-card"><div class="skel" style="width:40px;height:40px;border-radius:4px;flex-shrink:0"></div><div style="flex:1"><div class="skel" style="height:14px;width:55%;margin-bottom:8px"></div><div class="skel" style="height:12px;width:35%"></div></div></div>
+        <div class="skel-card"><div class="skel" style="width:40px;height:40px;border-radius:4px;flex-shrink:0"></div><div style="flex:1"><div class="skel" style="height:14px;width:65%;margin-bottom:8px"></div><div class="skel" style="height:12px;width:40%"></div></div></div>
+        <div class="skel-card"><div class="skel" style="width:40px;height:40px;border-radius:4px;flex-shrink:0"></div><div style="flex:1"><div class="skel" style="height:14px;width:45%;margin-bottom:8px"></div><div class="skel" style="height:12px;width:30%"></div></div></div>
+        <div class="skel-card"><div class="skel" style="width:40px;height:40px;border-radius:4px;flex-shrink:0"></div><div style="flex:1"><div class="skel" style="height:14px;width:60%;margin-bottom:8px"></div><div class="skel" style="height:12px;width:38%"></div></div></div>
+      </div>
+      <div class="pag" id="pagination"></div>
+      <footer>© 2026 Jobbtorget &nbsp;·&nbsp; Alla jobb i Sverige &nbsp;·&nbsp; <a href="#" style="color:var(--ink4)">Integritetspolicy</a></footer>
+    </main>
+  </div>
+</div>
+
+<script>
+/* TRANSLATIONS */
+const TR={
+  sv:{kicker:'Alla jobb i Sverige',q:'Vad letar du\nefter idag?',hint:'Skriv en jobbtitel, ort eller bransch',skip:'Visa alla lediga jobb →',stat:'aktiva annonser',searchPh:'Sök jobb, ort eller bransch...',slType:'Anställningsform',slCity:'Ort',ftAlla:'Alla typer',ftHeltid:'Heltid',ftDeltid:'Deltid',ftDistans:'Distans',allCities:'Alla orter',bNew:'Idag',bRemote:'Distans',noJobs:'Inga jobb hittades',noJobsSub:'Prova en annan sökning',results:'resultat'},
+  en:{kicker:'All jobs in Sweden',q:'What are you\nlooking for today?',hint:'Job title, city or industry',skip:'Browse all jobs →',stat:'active listings',searchPh:'Search jobs, city or industry...',slType:'Employment type',slCity:'Location',ftAlla:'All types',ftHeltid:'Full-time',ftDeltid:'Part-time',ftDistans:'Remote',allCities:'All locations',bNew:'Today',bRemote:'Remote',noJobs:'No jobs found',noJobsSub:'Try a different search',results:'results'},
+  ar:{kicker:'كل الوظائف في السويد',q:'ماذا تبحث\nعنه اليوم؟',hint:'مسمى وظيفي أو مدينة أو صناعة',skip:'تصفح جميع الوظائف →',stat:'إعلانات نشطة',searchPh:'ابحث...',slType:'نوع العمل',slCity:'المدينة',ftAlla:'الكل',ftHeltid:'دوام كامل',ftDeltid:'دوام جزئي',ftDistans:'عن بُعد',allCities:'كل المدن',bNew:'اليوم',bRemote:'عن بُعد',noJobs:'لا توجد وظائف',noJobsSub:'جرّب بحثاً آخر',results:'نتائج'},
+  so:{kicker:'Dhammaan shaqooyinka Iswiidhan',q:'Maxaad\ndooneysaa maanta?',hint:'Cinwaanka shaqada ama magaalada',skip:'Arag dhammaan shaqooyinka →',stat:'xayeysiisyo firfircoon',searchPh:'Raadi...',slType:'Nooca shaqada',slCity:'Magaalo',ftAlla:'Dhammaan',ftHeltid:'Waqti buuxa',ftDeltid:'Waqti qaarkiis',ftDistans:'Fog',allCities:'Dhammaan magaalooyinka',bNew:'Maanta',bRemote:'Fog',noJobs:'Shaqo lama helin',noJobsSub:'Isku day raadin kale',results:'natiijooyiin'},
+  es:{kicker:'Todos los empleos en Suecia',q:'¿Qué estás\nbuscando hoy?',hint:'Título de trabajo, ciudad o sector',skip:'Ver todos los empleos →',stat:'anuncios activos',searchPh:'Buscar...',slType:'Tipo de empleo',slCity:'Ciudad',ftAlla:'Todos',ftHeltid:'Tiempo completo',ftDeltid:'Tiempo parcial',ftDistans:'Remoto',allCities:'Todas las ciudades',bNew:'Hoy',bRemote:'Remoto',noJobs:'No se encontraron empleos',noJobsSub:'Intenta otra búsqueda',results:'resultados'},
+  fa:{kicker:'همه مشاغل در سوئد',q:'امروز دنبال\nچه می‌گردید؟',hint:'عنوان شغل، شهر یا صنعت',skip:'مشاهده همه مشاغل →',stat:'آگهی فعال',searchPh:'جستجو...',slType:'نوع استخدام',slCity:'شهر',ftAlla:'همه',ftHeltid:'تمام وقت',ftDeltid:'پاره وقت',ftDistans:'از راه دور',allCities:'همه شهرها',bNew:'امروز',bRemote:'از راه دور',noJobs:'شغلی یافت نشد',noJobsSub:'جستجوی دیگری امتحان کنید',results:'نتیجه'}
+};
+let lang='sv';
+const T=()=>TR[lang];
+
+function applyLang(l){
+  lang=l;
+  const t=T(),rtl=['ar','fa'].includes(l);
+  document.documentElement.lang=l;document.documentElement.dir=rtl?'rtl':'ltr';
+  document.getElementById('e-kicker').textContent=t.kicker;
+  const qLines=t.q.split('\n');
+  document.getElementById('e-q').innerHTML=qLines[0]+'<br>'+qLines[1].replace('idag?','<em>idag?</em>').replace('today?','<em>today?</em>').replace('اليوم؟','<em>اليوم؟</em>').replace('maanta?','<em>maanta?</em>').replace('hoy?','<em>hoy?</em>').replace('می‌گردید؟','<em>می‌گردید؟</em>');
+  document.getElementById('e-hint').textContent=t.hint;
+  document.getElementById('e-skip').textContent=t.skip;
+  document.getElementById('entry-input').placeholder=t.hint;
+  document.getElementById('app-search').placeholder=t.searchPh;
+  document.getElementById('sl-type').textContent=t.slType;
+  document.getElementById('sl-city').textContent=t.slCity;
+  document.getElementById('ft-alla').textContent=t.ftAlla;
+  document.getElementById('ft-heltid').textContent=t.ftHeltid;
+  document.getElementById('ft-deltid').textContent=t.ftDeltid;
+  document.getElementById('ft-distans').textContent=t.ftDistans;
+  if(document.getElementById('app').style.display!=='none') loadJobs();
 }
 
-function searchJobs() { renderJobs(); }
-document.getElementById('search-input').addEventListener('input', renderJobs);
-document.getElementById('search-input').addEventListener('keydown', e => { if(e.key==='Enter') renderJobs(); });
+/* LANG SWITCHERS */
+document.getElementById('entry-langs').addEventListener('click',e=>{
+  const b=e.target.closest('.elang');if(!b)return;
+  document.querySelectorAll('.elang').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tlang').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.querySelectorAll('.tlang[data-lang="'+b.dataset.lang+'"]').forEach(x=>x.classList.add('active'));
+  applyLang(b.dataset.lang);
+});
+document.getElementById('top-langs').addEventListener('click',e=>{
+  const b=e.target.closest('.tlang');if(!b)return;
+  document.querySelectorAll('.tlang').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.elang').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.querySelectorAll('.elang[data-lang="'+b.dataset.lang+'"]').forEach(x=>x.classList.add('active'));
+  applyLang(b.dataset.lang);
+});
 
-function filterJobs(el, f) {
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active'); currentFilter = f; renderJobs();
+/* ENTRY ACTIONS */
+document.getElementById('entry-input').addEventListener('keydown',e=>{if(e.key==='Enter')doEntry();});
+function doEntry(){const v=document.getElementById('entry-input').value.trim();openApp(v);}
+function quickSearch(q){document.getElementById('entry-input').value=q;openApp(q);}
+
+function openApp(q){
+  appFilters.q=q;
+  appFilters.type='alla';
+  appFilters.city='';
+  currentPage=1;
+  document.getElementById('entry').classList.add('leaving');
+  setTimeout(()=>{
+    document.getElementById('entry').style.display='none';
+    document.getElementById('app').style.display='block';
+    if(q) document.getElementById('app-search').value=q;
+    loadJobs();
+    loadCityFilters();
+  },600);
 }
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2200);
+function goHome(){
+  document.getElementById('entry').style.display='flex';
+  document.getElementById('entry').classList.remove('leaving');
+  document.getElementById('app').style.display='none';
+  animParticles();
 }
 
-loadJobs();
+/* APP STATE */
+let appFilters={q:'',type:'alla',city:''};
+let currentPage=1;
+
+function setType(type,el){
+  appFilters.type=type;currentPage=1;
+  document.querySelectorAll('#type-filters .fitem').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  loadJobs();
+}
+function setCity(city,el){
+  appFilters.city=city;currentPage=1;
+  document.querySelectorAll('#city-filters .fitem').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  loadJobs();
+}
+function appSearch(){appFilters.q=document.getElementById('app-search').value.trim();currentPage=1;loadJobs();}
+document.getElementById('app-search').addEventListener('keydown',e=>{if(e.key==='Enter')appSearch();});
+
+/* LOAD JOBS */
+const CP=[['#FFF3E0','#C46A00'],['#E1F5EE','#0F6E56'],['#E6F1FB','#185FA5'],['#FBEAF0','#993556'],['#EEEDFE','#534AB7'],['#FFF8EE','#8A4500'],['#EAF3DE','#3B6D11'],['#F1EFE8','#5F5E5A']];
+const lc=n=>CP[(n.charCodeAt(0)||0)%CP.length][0];
+const lt=n=>CP[(n.charCodeAt(0)||0)%CP.length][1];
+const ini=n=>n.trim().split(/\s+/).slice(0,2).map(w=>(w[0]||'').toUpperCase()).join('')||'AF';
+
+async function loadJobs(){
+  const t=T();
+  const params=new URLSearchParams({page:currentPage});
+  if(appFilters.type&&appFilters.type!=='alla')params.set('type',appFilters.type);
+  if(appFilters.city)params.set('city',appFilters.city);
+  if(appFilters.q)params.set('q',appFilters.q);
+
+  // Active query badge
+  const aqw=document.getElementById('active-query-wrap');
+  if(appFilters.q){
+    aqw.innerHTML=`<div class="active-query">"${appFilters.q}" <span class="aq-x" onclick="clearQ()">×</span></div>`;
+  } else aqw.innerHTML='';
+
+  try{
+    const res=await fetch('/api/jobs?'+params);
+    const data=await res.json();
+    const count=document.getElementById('results-count');
+    count.innerHTML=`<strong>${(data.total||0).toLocaleString('sv-SE')}</strong> ${t.results}`;
+    renderJobs(data.jobs||[],data.total||0,data.pages||1,t);
+    // Update entry stat
+    if(data.stats){document.getElementById('e-count').textContent=(data.stats.total||0).toLocaleString('sv-SE');}
+  }catch(e){
+    document.getElementById('job-list').innerHTML=`<div class="empty"><div class="empty-title">${t.noJobs}</div><p style="margin-top:8px;font-size:14px;color:var(--ink4)">${t.noJobsSub}</p></div>`;
+  }
+}
+
+function clearQ(){appFilters.q='';document.getElementById('app-search').value='';currentPage=1;loadJobs();}
+
+function renderJobs(jobs,total,pages,t){
+  const list=document.getElementById('job-list');
+  if(!jobs.length){
+    list.innerHTML=`<div class="empty"><div class="empty-title">${t.noJobs}</div><p style="margin-top:8px;font-size:14px;color:var(--ink4)">${t.noJobsSub}</p></div>`;
+    document.getElementById('pagination').innerHTML='';
+    return;
+  }
+  list.innerHTML=jobs.map(j=>{
+    const name=j.company||'';
+    const hasUrl=j.url&&j.url.startsWith('http');
+    const pub=j.published?new Date(j.published).toLocaleDateString('sv-SE',{day:'numeric',month:'short'}):'';
+    const dead=j.deadline?new Date(j.deadline).toLocaleDateString('sv-SE',{day:'numeric',month:'short'}):'';
+    return `<a class="job-card" ${hasUrl?`href="${j.url}" target="_blank" rel="noopener noreferrer"`:'href="#"'}>
+      <div class="job-logo" style="background:${lc(name)};color:${lt(name)}">${ini(name)}</div>
+      <div class="job-body">
+        <div class="job-title">${j.title}</div>
+        <div class="job-company">${j.company} · ${j.city}</div>
+        <div class="job-tags">
+          <span class="jtag">${j.type==='deltid'?t.ftDeltid:j.type==='distans'?t.ftDistans:t.ftHeltid}</span>
+          ${j.badge==='new'?`<span class="jtag jtag-new">${t.bNew}</span>`:''}
+          ${j.type==='distans'?`<span class="jtag jtag-remote">${t.bRemote}</span>`:''}
+        </div>
+      </div>
+      <div class="job-right">
+        ${pub?`<div class="job-date">${pub}</div>`:''}
+        ${dead?`<div class="job-deadline">Sista: ${dead}</div>`:''}
+      </div>
+    </a>`;
+  }).join('');
+
+  const pag=document.getElementById('pagination');
+  if(pages>1){
+    let h='';
+    const start=Math.max(1,currentPage-3),end=Math.min(pages,currentPage+3);
+    if(start>1)h+=`<button class="pag-btn" onclick="goPage(1)">1</button>`;
+    for(let p=start;p<=end;p++)h+=`<button class="pag-btn${p===currentPage?' active':''}" onclick="goPage(${p})">${p}</button>`;
+    if(end<pages)h+=`<button class="pag-btn" onclick="goPage(${pages})">${pages}</button>`;
+    pag.innerHTML=h;
+  } else pag.innerHTML='';
+}
+
+function goPage(p){currentPage=p;loadJobs();window.scrollTo({top:0,behavior:'smooth'});}
+
+async function loadCityFilters(){
+  try{
+    const res=await fetch('/api/filters');
+    const {cities}=await res.json();
+    const t=T();
+    const el=document.getElementById('city-filters');
+    el.innerHTML=`<div class="fitem active" onclick="setCity('',this)">${t.allCities}</div>`;
+    cities.slice(0,12).forEach(c=>{
+      const d=document.createElement('div');
+      d.className='fitem';d.textContent=c;
+      d.onclick=()=>setCity(c,d);
+      el.appendChild(d);
+    });
+  }catch(e){}
+}
+
+/* PARTICLE ANIMATION */
+const pc=document.getElementById('particles'),px=pc.getContext('2d');
+let pts=[];
+function resizeP(){pc.width=window.innerWidth;pc.height=window.innerHeight;}
+resizeP();window.addEventListener('resize',resizeP);
+for(let i=0;i<60;i++) pts.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,r:Math.random()*1.5+0.3,vx:(Math.random()-0.5)*0.3,vy:(Math.random()-0.5)*0.3,a:Math.random()*0.5+0.1});
+function animParticles(){
+  px.clearRect(0,0,pc.width,pc.height);
+  pts.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0)p.x=pc.width;if(p.x>pc.width)p.x=0;
+    if(p.y<0)p.y=pc.height;if(p.y>pc.height)p.y=0;
+    px.beginPath();px.arc(p.x,p.y,p.r,0,Math.PI*2);
+    px.fillStyle=`rgba(200,82,10,${p.a})`;px.fill();
+  });
+  // Draw lines between close particles
+  pts.forEach((a,i)=>{pts.forEach((b,j)=>{if(j<=i)return;const d=Math.hypot(a.x-b.x,a.y-b.y);if(d<120){px.beginPath();px.moveTo(a.x,a.y);px.lineTo(b.x,b.y);px.strokeStyle=`rgba(200,82,10,${0.08*(1-d/120)})`;px.lineWidth=0.5;px.stroke();}});});
+  if(document.getElementById('entry').style.display!=='none') requestAnimationFrame(animParticles);
+}
+animParticles();
+fetch('/api/stats').then(r=>r.json()).then(d=>{
+  if(d.total)document.getElementById('e-count').textContent=d.total.toLocaleString('sv-SE');
+}).catch(()=>{});
 </script>
 </body>
 </html>
