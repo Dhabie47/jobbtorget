@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jobbtorget</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8003943784583823"
+     crossorigin="anonymous"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -274,7 +276,6 @@ function drawSea(ts=0){
   t+=0.006;
   ctx.clearRect(0,0,W,H);
 
-  // Cache gradients on resize only
   if(W!==lastW||H!==lastH){
     lastW=W;lastH=H;
     skyGrad=ctx.createLinearGradient(0,0,0,H*0.58);
@@ -288,17 +289,14 @@ function drawSea(ts=0){
     sunGrad.addColorStop(1,'rgba(255,200,60,0)');
   }
 
-  // Sky
   ctx.fillStyle=skyGrad;ctx.fillRect(0,0,W,H*0.6);
 
-  // Sun
   const sx=W*0.72,sy=H*0.2,sr=Math.min(W,H)*0.055;
   ctx.beginPath();ctx.arc(sx,sy,sr*3,0,Math.PI*2);
   ctx.fillStyle=sunGrad;ctx.fill();
   ctx.beginPath();ctx.arc(sx,sy,sr,0,Math.PI*2);
   ctx.fillStyle='#FEF3C7';ctx.fill();
 
-  // Sun shimmer – fewer lines
   const shimY=H*0.52;
   for(let i=0;i<6;i++){
     const sw=W*0.032*(1-i*0.1);
@@ -307,7 +305,6 @@ function drawSea(ts=0){
     ctx.fillRect(sx-sw/2,sy2,sw,2);
   }
 
-  // Island left
   ctx.fillStyle='#062030';
   ctx.beginPath();
   ctx.moveTo(W*0.02,H*0.50);
@@ -317,14 +314,12 @@ function drawSea(ts=0){
   ctx.beginPath();ctx.arc(W*0.13,H*0.365,H*0.022,0,Math.PI*2);ctx.fill();
   ctx.fillRect(W*0.123,H*0.365,W*0.013,H*0.036);
 
-  // Island right
   ctx.fillStyle='#08334D';
   ctx.beginPath();
   ctx.moveTo(W*0.78,H*0.50);
   ctx.bezierCurveTo(W*0.82,H*0.42,W*0.88,H*0.40,W*0.96,H*0.50);
   ctx.closePath();ctx.fill();
 
-  // Waves – larger step = fewer points = faster
   waves.forEach(w=>{
     const baseY=H*w.y;
     ctx.beginPath();ctx.moveTo(0,H);
@@ -336,7 +331,6 @@ function drawSea(ts=0){
     ctx.fillStyle=w.color;ctx.fill();
   });
 
-  // Foam
   const fw=waves[waves.length-1];
   ctx.beginPath();
   for(let x=0;x<=W;x+=8){
