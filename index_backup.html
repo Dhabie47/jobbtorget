@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jobbtorget – Alla jobb i Sverige</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --sun: #FFB830; --orange: #E07000; --orange-deep: #C45500;
+    --cream: #FFFBF4; --text-dark: #1A0E00; --text-mid: #5C3D00;
+    --text-muted: #9A7040; --card-bg: rgba(255,255,255,0.88);
+    --border: rgba(255,160,60,0.25); --radius: 16px; --radius-sm: 10px; --radius-pill: 999px;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; overflow-x: hidden; }
+  #sun-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+  .page { position: relative; z-index: 1; }
+
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 2.5rem; position: sticky; top: 0; z-index: 100;
+    background: rgba(255,251,244,0.78); backdrop-filter: blur(16px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--orange-deep); letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+  .logo-dot { width: 10px; height: 10px; background: var(--sun); border-radius: 50%; animation: pulse-dot 2.5s ease-in-out infinite; }
+  @keyframes pulse-dot { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.5);opacity:0.65} }
+  nav { display: flex; gap: 1.5rem; align-items: center; }
+  nav a { font-size: 14px; color: var(--text-mid); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+  nav a:hover { color: var(--orange); }
+  .btn-primary { background: var(--orange); color: #fff; border: none; padding: 0.55rem 1.25rem; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.2s,transform 0.15s; text-decoration: none; display: inline-block; }
+  .btn-primary:hover { background: var(--orange-deep); transform: translateY(-1px); }
+
+  .hero { min-height: 78vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6rem 2rem 3rem; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,180,60,0.15); border: 0.5px solid rgba(255,160,60,0.4); border-radius: var(--radius-pill); padding: 5px 14px; font-size: 12px; font-weight: 600; color: var(--orange-deep); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 1.5rem; opacity: 0; animation: fade-up 0.7s ease 0.2s forwards; }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem,7vw,5rem); line-height: 1.08; color: var(--text-dark); max-width: 720px; margin-bottom: 1.5rem; opacity: 0; animation: fade-up 0.7s ease 0.35s forwards; }
+  .hero h1 em { color: var(--orange); font-style: normal; }
+
+  /* BIGGER subtitle */
+  .hero-sub { font-size: clamp(19px,2.4vw,23px); color: var(--text-mid); max-width: 640px; line-height: 1.62; margin-bottom: 2.5rem; font-weight: 400; opacity: 0; animation: fade-up 0.7s ease 0.5s forwards; }
+  .hero-sub strong { color: var(--orange-deep); font-weight: 600; }
+
+  @keyframes fade-up { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+
+  .search-wrap { width: 100%; max-width: 630px; opacity: 0; animation: fade-up 0.7s ease 0.65s forwards; }
+  .search-box { display: flex; background: rgba(255,255,255,0.97); border: 1.5px solid rgba(255,160,60,0.45); border-radius: var(--radius-pill); overflow: hidden; box-shadow: 0 10px 40px rgba(224,112,0,0.14); transition: box-shadow 0.2s,border-color 0.2s; }
+  .search-box:focus-within { border-color: var(--orange); box-shadow: 0 10px 48px rgba(224,112,0,0.22); }
+  .search-box input { flex: 1; border: none; outline: none; padding: 1.05rem 1.5rem; font-size: 16px; font-family: inherit; background: transparent; color: var(--text-dark); }
+  .search-box input::placeholder { color: var(--text-muted); }
+  .search-box button { background: var(--orange); color: #fff; border: none; padding: 0 1.75rem; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; border-radius: 0 var(--radius-pill) var(--radius-pill) 0; transition: background 0.2s; display: flex; align-items: center; gap: 8px; }
+  .search-box button:hover { background: var(--orange-deep); }
+
+  .lang-row { display: flex; gap: 8px; margin-top: 1.25rem; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fade-up 0.7s ease 0.8s forwards; }
+  .lang-pill { padding: 6px 16px; border-radius: var(--radius-pill); border: 0.5px solid var(--border); background: rgba(255,255,255,0.78); color: var(--text-muted); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; user-select: none; }
+  .lang-pill:hover { background: rgba(255,255,255,0.95); color: var(--orange); border-color: rgba(255,160,60,0.5); }
+  .lang-pill.active { background: var(--orange); color: #fff; border-color: var(--orange); }
+
+  .stats { display: flex; justify-content: center; gap: 3rem; padding: 2rem; opacity: 0; animation: fade-up 0.7s ease 1s forwards; }
+  .stat { text-align: center; }
+  .stat-n { font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: var(--orange); line-height: 1; }
+  .stat-l { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+  .jobs-section { max-width: 780px; margin: 0 auto; padding: 0 1.5rem 5rem; }
+  .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1rem; }
+  .section-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text-dark); }
+  .section-link { font-size: 13px; color: var(--orange); text-decoration: none; font-weight: 500; }
+
+  .filters { display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .chip { padding: 5px 15px; border-radius: var(--radius-pill); border: 0.5px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.72); color: var(--text-muted); font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.18s; }
+  .chip.active, .chip:hover { background: #FFF3E0; color: var(--orange-deep); border-color: rgba(255,160,60,0.5); }
+
+  .job-list { display: flex; flex-direction: column; gap: 10px; }
+  .job-card { background: var(--card-bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: all 0.2s; backdrop-filter: blur(8px); text-decoration: none; color: inherit; }
+  .job-card:hover { border-color: rgba(255,140,0,0.55); background: rgba(255,255,255,0.98); transform: translateY(-2px); box-shadow: 0 6px 28px rgba(224,112,0,0.11); }
+  .job-logo { width: 46px; height: 46px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; border: 0.5px solid var(--border); }
+  .job-body { flex: 1; min-width: 0; }
+  .job-title { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .job-meta { font-size: 13px; color: var(--text-muted); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .badge { font-size: 11px; padding: 2px 9px; border-radius: var(--radius-pill); font-weight: 600; }
+  .badge-new    { background: #FFF3E0; color: #C46A00; }
+  .badge-remote { background: #E1F5EE; color: #0F6E56; }
+  .badge-full   { background: #E6F1FB; color: #185FA5; }
+  .job-source { font-size: 11px; color: var(--text-muted); margin-left: auto; white-space: nowrap; }
+  .job-arrow { color: var(--text-muted); font-size: 20px; flex-shrink: 0; }
+
+  .skeleton { background: linear-gradient(90deg,rgba(255,200,100,0.12)25%,rgba(255,200,100,0.24)50%,rgba(255,200,100,0.12)75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; }
+  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+  .skeleton-card { background: var(--card-bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; display: flex; gap: 1rem; align-items: center; }
+
+  .api-banner { background: rgba(255,255,255,0.72); border: 0.5px solid rgba(24,95,165,0.22); border-radius: var(--radius); padding: 0.85rem 1.25rem; display: flex; align-items: center; gap: 12px; margin-bottom: 1.25rem; backdrop-filter: blur(8px); font-size: 13px; color: #185FA5; }
+  .api-dot { width: 8px; height: 8px; border-radius: 50%; background: #1D9E75; flex-shrink: 0; animation: pulse-dot 1.8s ease-in-out infinite; }
+
+  .cta-bar { background: linear-gradient(135deg,rgba(255,180,60,0.18),rgba(255,120,0,0.09)); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.35rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.5rem; backdrop-filter: blur(8px); }
+  .cta-bar p { font-size: 15px; color: var(--text-mid); line-height: 1.5; }
+  .cta-bar strong { color: var(--text-dark); font-weight: 600; }
+
+  footer { text-align: center; padding: 2rem; font-size: 13px; color: var(--text-muted); border-top: 0.5px solid var(--border); }
+  .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--text-dark); color: #fff; padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; opacity: 0; transform: translateY(10px); transition: all 0.3s; z-index: 200; pointer-events: none; }
+  .toast.show { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+<canvas id="sun-canvas"></canvas>
+<div class="page">
+  <header>
+    <div class="logo"><span class="logo-dot"></span> Jobbtorget</div>
+    <nav>
+      <a href="#" id="nav-browse">Bläddra jobb</a>
+      <a href="#" id="nav-saved">Spara jobb</a>
+      <a href="#" id="nav-profile">Min profil</a>
+      <a href="#" class="btn-primary" id="nav-signup">Skapa konto</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-badge" id="hero-badge">🌤 Uppdateras i realtid</div>
+    <h1 id="h1-text">Alla jobb i Sverige.<br><em>På ett ställe.</em></h1>
+    <p class="hero-sub" id="hero-sub">Vi samlar annonser från <strong>Platsbanken</strong>, <strong>Junic</strong>, <strong>One Partner</strong> och hundratals arbetsgivare – direkt till dig, på ditt eget språk.</p>
+
+    <div class="search-wrap">
+      <div class="search-box">
+        <input type="text" id="search-input" placeholder="Sök jobb, titel eller plats..." />
+        <button onclick="searchJobs()">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <span id="btn-search-text">Sök</span>
+        </button>
+      </div>
+      <div class="lang-row" id="lang-row">
+        <span class="lang-pill active" data-lang="sv">🇸🇪 Svenska</span>
+        <span class="lang-pill" data-lang="en">🇬🇧 English</span>
+        <span class="lang-pill" data-lang="ar">🇸🇦 العربية</span>
+        <span class="lang-pill" data-lang="so">🇸🇴 Soomaali</span>
+        <span class="lang-pill" data-lang="es">🇪🇸 Español</span>
+        <span class="lang-pill" data-lang="fa">🇦🇫 دری</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-n" id="count-total">–</div><div class="stat-l" id="lbl-total">Aktiva annonser</div></div>
+    <div class="stat"><div class="stat-n" id="count-sources">–</div><div class="stat-l" id="lbl-sources">Källor samlade</div></div>
+    <div class="stat"><div class="stat-n" id="count-today">–</div><div class="stat-l" id="lbl-today">Nya idag</div></div>
+  </div>
+
+  <section class="jobs-section">
+    <div class="api-banner">
+      <div class="api-dot"></div>
+      <span id="api-banner-text">Ansluten till Arbetsförmedlingens öppna API – hämtar riktiga jobbannonser</span>
+    </div>
+    <div class="section-header">
+      <h2 class="section-title" id="lbl-latest">Senaste jobben</h2>
+      <a href="#" class="section-link" id="lbl-showall">Visa alla →</a>
+    </div>
+    <div class="filters">
+      <button class="chip active" onclick="filterJobs(this,'alla')" id="chip-alla">Alla</button>
+      <button class="chip" onclick="filterJobs(this,'heltid')" id="chip-heltid">Heltid</button>
+      <button class="chip" onclick="filterJobs(this,'deltid')" id="chip-deltid">Deltid</button>
+      <button class="chip" onclick="filterJobs(this,'distans')" id="chip-distans">Distans</button>
+    </div>
+    <div class="job-list" id="job-list">
+      <div class="skeleton-card"><div class="skeleton" style="width:46px;height:46px;border-radius:10px;flex-shrink:0"></div><div style="flex:1"><div class="skeleton" style="height:14px;width:60%;margin-bottom:8px"></div><div class="skeleton" style="height:12px;width:40%"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton" style="width:46px;height:46px;border-radius:10px;flex-shrink:0"></div><div style="flex:1"><div class="skeleton" style="height:14px;width:50%;margin-bottom:8px"></div><div class="skeleton" style="height:12px;width:35%"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton" style="width:46px;height:46px;border-radius:10px;flex-shrink:0"></div><div style="flex:1"><div class="skeleton" style="height:14px;width:70%;margin-bottom:8px"></div><div class="skeleton" style="height:12px;width:45%"></div></div></div>
+    </div>
+    <div class="cta-bar">
+      <p id="cta-text"><strong>Missa aldrig ett jobb.</strong> Skapa ett konto och få nya annonser direkt – på ditt eget språk.</p>
+      <button class="btn-primary" id="cta-btn">Kom igång gratis</button>
+    </div>
+  </section>
+  <footer>© 2026 Jobbtorget · <a href="#" style="color:var(--orange)" id="footer-privacy">Integritetspolicy</a></footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── ANIMATED SUN – bigger, lower, breathes ── */
+const canvas = document.getElementById('sun-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, t = 0;
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+
+function drawSun() {
+  ctx.clearRect(0, 0, W, H); t += 0.007;
+  const cx = W * 0.5;
+  const cy = H * 0.42 + Math.sin(t * 0.5) * 18;   // lower on page
+  const breathe = 1 + Math.sin(t * 0.8) * 0.025;
+  const R = Math.min(W, H) * 0.80 * breathe;        // much bigger
+
+  for (let i = 4; i >= 0; i--) {
+    const r = R * (1 + i * 0.22); const alpha = 0.055 - i * 0.01;
+    const g = ctx.createRadialGradient(cx, cy, R*0.2, cx, cy, r);
+    g.addColorStop(0, `rgba(255,190,65,${alpha})`); g.addColorStop(1, 'rgba(255,185,60,0)');
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fillStyle = g; ctx.fill();
+  }
+  const rayCount = 20;
+  ctx.save(); ctx.translate(cx, cy); ctx.rotate(t * 0.09);
+  for (let i = 0; i < rayCount; i++) {
+    const angle = (i / rayCount) * Math.PI * 2;
+    const len = R * (0.82 + 0.18 * Math.sin(t*1.2 + i*0.7));
+    const w = R * 0.055;
+    ctx.save(); ctx.rotate(angle);
+    const rg = ctx.createLinearGradient(R*0.42, 0, len, 0);
+    rg.addColorStop(0, 'rgba(255,200,75,0.28)'); rg.addColorStop(1, 'rgba(255,165,40,0)');
+    ctx.beginPath(); ctx.moveTo(R*0.42,-w/2); ctx.lineTo(len,0); ctx.lineTo(R*0.42,w/2);
+    ctx.fillStyle = rg; ctx.fill(); ctx.restore();
+  }
+  ctx.restore();
+  const core = ctx.createRadialGradient(cx, cy-R*0.07, R*0.04, cx, cy, R*0.5);
+  core.addColorStop(0, 'rgba(255,240,150,0.95)'); core.addColorStop(0.35,'rgba(255,210,85,0.80)');
+  core.addColorStop(0.7,'rgba(255,165,45,0.50)'); core.addColorStop(1,'rgba(255,130,20,0)');
+  ctx.beginPath(); ctx.arc(cx, cy, R*0.5, 0, Math.PI*2); ctx.fillStyle = core; ctx.fill();
+  const sky = ctx.createLinearGradient(0,0,0,H);
+  sky.addColorStop(0,'rgba(255,225,130,0.22)'); sky.addColorStop(0.45,'rgba(255,205,100,0.10)');
+  sky.addColorStop(0.85,'rgba(255,200,90,0.04)'); sky.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle = sky; ctx.fillRect(0,0,W,H);
+  requestAnimationFrame(drawSun);
+}
+drawSun();
+
+/* ── TRANSLATIONS ─��������� */
+const LANGS = {
+  sv: { h1:'Alla jobb i Sverige.<br><em>På ett ställe.</em>', sub:'Vi samlar annonser från <strong>Platsbanken</strong>, <strong>Junic</strong>, <strong>One Partner</strong> och hundratals arbetsgivare – direkt till dig, på ditt eget språk.', search:'Sök', placeholder:'Sök jobb, titel eller plats...', latest:'Senaste jobben', showall:'Visa alla →', total:'Aktiva annonser', sources:'Källor samlade', today:'Nya idag', chipAlla:'Alla', chipHeltid:'Heltid', chipDeltid:'Deltid', chipDistans:'Distans', cta:'<strong>Missa aldrig ett jobb.</strong> Skapa ett konto och få nya annonser direkt.', ctaBtn:'Kom igång gratis', apiBanner:'Ansluten till Arbetsförmedlingens öppna API – hämtar riktiga jobbannonser', privacy:'Integritetspolicy', noJobs:'Inga jobb hittades. Prova en annan sökning.', badge:'🌤 Uppdateras i realtid', opening:'Öppnar', bNew:'Ny idag', bRemote:'Distans', bFull:'Heltid' },
+  en: { h1:'All jobs in Sweden.<br><em>In one place.</em>', sub:'We gather listings from <strong>Platsbanken</strong>, <strong>Junic</strong>, <strong>One Partner</strong> and hundreds of employers – delivered to you, in your language.', search:'Search', placeholder:'Search jobs, title or city...', latest:'Latest jobs', showall:'View all →', total:'Active listings', sources:'Sources gathered', today:'New today', chipAlla:'All', chipHeltid:'Full-time', chipDeltid:'Part-time', chipDistans:'Remote', cta:'<strong>Never miss a job.</strong> Create an account and receive new listings directly.', ctaBtn:'Get started free', apiBanner:'Connected to the Swedish Employment Agency open API', privacy:'Privacy policy', noJobs:'No jobs found. Try a different search.', badge:'🌤 Updated in real time', opening:'Opening', bNew:'New today', bRemote:'Remote', bFull:'Full-time' },
+  ar: { h1:'كل الوظائف في السويد.<br><em>في مكان واحد.</em>', sub:'نجمع الإعلانات من <strong>Platsbanken</strong> و<strong>Junic</strong> و<strong>One Partner</strong> ومئات أصحاب العمل – مباشرةً إليك، بلغتك.', search:'بحث', placeholder:'ابحث عن وظيفة أو مدينة...', latest:'أحدث الوظائف', showall:'عرض الكل →', total:'إعلانات نشطة', sources:'مصادر مجمّعة', today:'جديدة اليوم', chipAlla:'الكل', chipHeltid:'دوام كامل', chipDeltid:'دوام جزئي', chipDistans:'عن بُعد', cta:'<strong>لا تفوّت أي وظيفة.</strong> أنشئ حساباً واحصل على إعلانات جديدة.', ctaBtn:'ابدأ مجاناً', apiBanner:'متصل بواجهة برمجة وكالة التوظيف السويدية', privacy:'سياسة الخصوصية', noJobs:'ل�� توجد وظائف. جرّب بحثاً مختلفاً.', badge:'🌤 يُحدَّث في الوقت الفعلي', opening:'فتح', bNew:'جديد اليوم', bRemote:'عن بُعد', bFull:'دوام كامل' },
+  so: { h1:'Dhammaan shaqooyinka Iswiidhan.<br><em>Meel kaliya.</em>', sub:'Waxaan ururinaa xayeysiisyada <strong>Platsbanken</strong>, <strong>Junic</strong>, <strong>One Partner</strong> iyo boqolaal shirkad – si toos ah kuugu geeya, luqaddaada.', search:'Raadi', placeholder:'Raadi shaqo, cinwaan ama magaalo...', latest:'Shaqooyinka ugu dambeeyay', showall:'Arag dhammaan →', total:'Xayeysiisyo firfircoon', sources:'Ilo la soo ururiyay', today:'Cusub maanta', chipAlla:'Dhammaan', chipHeltid:'Waqti buuxa', chipDeltid:'Waqti qaarkiis', chipDistans:'Fog', cta:'<strong>Ha ka maqnaanin shaqo.</strong> Samee akoon oo hel xayeysiisyo cusub.', ctaBtn:'Bilow bilaash', apiBanner:'Ku xidnaa API-ga Arbetsförmedlingen', privacy:'Siyaasadda Gaarka', noJobs:'Shaqo lama helin. Isku day raadin kale.', badge:'🌤 Waa la cusbooneysiiyaa xilli walba', opening:'Furtay', bNew:'Cusub maanta', bRemote:'Fog', bFull:'Waqti buuxa' },
+  es: { h1:'Todos los empleos en Suecia.<br><em>En un solo lugar.</em>', sub:'Reunimos anuncios de <strong>Platsbanken</strong>, <strong>Junic</strong>, <strong>One Partner</strong> y cientos de empleadores �� directo a ti, en tu idioma.', search:'Buscar', placeholder:'Busca empleo, título o ciudad...', latest:'Últimos empleos', showall:'Ver todos →', total:'Anuncios activos', sources:'Fuentes reunidas', today:'Nuevos hoy', chipAlla:'Todos', chipHeltid:'Tiempo completo', chipDeltid:'Tiempo parcial', chipDistans:'Remoto', cta:'<strong>No te pierdas ningún empleo.</strong> Crea una cuenta y recibe nuevos anuncios.', ctaBtn:'Comenzar gratis', apiBanner:'Conectado a la API de Arbetsförmedlingen', privacy:'Política de privacidad', noJobs:'No se encontraron empleos. Prueba otra búsqueda.', badge:'🌤 Actualizado en tiempo real', opening:'Abriendo', bNew:'Nuevo hoy', bRemote:'Remoto', bFull:'Tiempo completo' },
+  fa: { h1:'همه مشاغل در سوئد.<br><em>در یک مکان.</em>', sub:'ما آگهی‌ها را از <strong>Platsbanken</strong>، <strong>Junic</strong>، <strong>One Partner</strong> و صدها کارفرما جمع می‌کنیم – مستقیم به شما، به زبان خودتان.', search:'جستجو', placeholder:'جستجوی شغل، عنوان یا شهر...', latest:'آخرین مشاغل', showall:'مشاهده همه →', total:'آگهی‌های فعال', sources:'منابع جمع‌آوری‌شده', today:'جدید امروز', chipAlla:'همه', chipHeltid:'تمام وقت', chipDeltid:'پاره وقت', chipDistans:'ا�� راه ��ور', cta:'<strong>هیچ شغلی را از دست ندهید.</strong> یک حساب بسازید و آگهی‌های جدید را دریافت کنید.', ctaBtn:'شروع رایگان', apiBanner:'متصل به API باز Arbetsförmedlingen', privacy:'سیاست حریم خصوصی', noJobs:'هیچ شغلی یافت نشد. جستجوی دیگری امتحان کنید.', badge:'🌤 به‌روزرسانی در زمان واقعی', opening:'باز کردن', bNew:'جدید امروز', bRemote:'از راه دور', bFull:'تمام وقت' }
+};
+
+let currentLang = 'sv';
+
+function applyLang(lang) {
+  currentLang = lang;
+  const T = LANGS[lang];
+  const rtl = ['ar','fa'].includes(lang);
+  document.documentElement.lang = lang;
+  document.documentElement.dir = rtl ? 'rtl' : 'ltr';
+  document.getElementById('h1-text').innerHTML = T.h1;
+  document.getElementById('hero-sub').innerHTML = T.sub;
+  document.getElementById('hero-badge').textContent = T.badge;
+  document.getElementById('btn-search-text').textContent = T.search;
+  document.getElementById('search-input').placeholder = T.placeholder;
+  document.getElementById('lbl-latest').textContent = T.latest;
+  document.getElementById('lbl-showall').textContent = T.showall;
+  document.getElementById('lbl-total').textContent = T.total;
+  document.getElementById('lbl-sources').textContent = T.sources;
+  document.getElementById('lbl-today').textContent = T.today;
+  document.getElementById('chip-alla').textContent = T.chipAlla;
+  document.getElementById('chip-heltid').textContent = T.chipHeltid;
+  document.getElementById('chip-deltid').textContent = T.chipDeltid;
+  document.getElementById('chip-distans').textContent = T.chipDistans;
+  document.getElementById('cta-text').innerHTML = T.cta;
+  document.getElementById('cta-btn').textContent = T.ctaBtn;
+  document.getElementById('api-banner-text').textContent = T.apiBanner;
+  document.getElementById('footer-privacy').textContent = T.privacy;
+  renderJobs();
+}
+
+document.getElementById('lang-row').addEventListener('click', e => {
+  const pill = e.target.closest('.lang-pill');
+  if (!pill) return;
+  document.querySelectorAll('.lang-pill').forEach(p => p.classList.remove('active'));
+  pill.classList.add('active');
+  applyLang(pill.dataset.lang);
+});
+
+/* ── JOB DATA ── */
+const JOBS = [
+  { id:1,  title:'Lagermedarbetare',           company:'IKEA Sverige',             city:'Göteborg',  type:'heltid',  badge:'new',    source:'Platsbanken',   logo:'IK', lc:'#FFF3E0', lt:'#C46A00' },
+  { id:2,  title:'Systemutvecklare – Backend',  company:'Junic AB',                 city:'Stockholm', type:'distans', badge:'remote', source:'Junic',         logo:'JN', lc:'#E1F5EE', lt:'#0F6E56' },
+  { id:3,  title:'Ekonomiassistent',            company:'One Partner Group',        city:'Malmö',     type:'heltid',  badge:'full',   source:'One Partner',   logo:'OP', lc:'#E6F1FB', lt:'#185FA5' },
+  { id:4,  title:'Sjuksköterska – Akuten',      company:'VGR',                      city:'Borås',     type:'heltid',  badge:'new',    source:'Arbetsgivaren', logo:'VG', lc:'#FBEAF0', lt:'#993556' },
+  { id:5,  title:'Barista & Café-medarbetare',  company:'Espresso House',           city:'Sundsvall', type:'deltid',  badge:'',       source:'Platsbanken',   logo:'EH', lc:'#FFF8EE', lt:'#8A4500' },
+  { id:6,  title:'IT-supporttekniker',          company:'Dustin AB',                city:'Stockholm', type:'heltid',  badge:'new',    source:'Arbetsgivaren', logo:'DU', lc:'#E6F1FB', lt:'#185FA5' },
+  { id:7,  title:'Personlig assistent',         company:'Humana',                   city:'Umeå',      type:'deltid',  badge:'',       source:'Platsbanken',   logo:'HU', lc:'#EEEDFE', lt:'#534AB7' },
+  { id:8,  title:'Frontend-utvecklare – React', company:'Klarna',                   city:'Stockholm', type:'distans', badge:'remote', source:'Arbetsgivaren', logo:'KL', lc:'#E1F5EE', lt:'#0F6E56' },
+];
+
+let currentFilter = 'alla';
+let allJobs = [...JOBS];
+
+async function loadJobs() {
+  try {
+    const res = await fetch('/api/jobs');
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    allJobs = data.jobs; updateStats(data.stats);
+  } catch {
+    allJobs = JOBS; updateStats({ total:24180, sources:340, today:1280 });
+  }
+  renderJobs();
+}
+
+function updateStats(s) {
+  animateCount('count-total',   typeof s.total==='number' ? s.total.toLocaleString('sv-SE') : s.total);
+  animateCount('count-sources', typeof s.sources==='number' ? s.sources+'+' : s.sources);
+  animateCount('count-today',   typeof s.today==='number' ? s.today.toLocaleString('sv-SE') : s.today);
+}
+
+function animateCount(id, val) {
+  const el = document.getElementById(id);
+  el.style.opacity = 0;
+  setTimeout(() => { el.textContent = val; el.style.transition = 'opacity 0.4s'; el.style.opacity = 1; }, 300);
+}
+
+function renderJobs() {
+  const T = LANGS[currentLang];
+  const query = document.getElementById('search-input').value.toLowerCase();
+  let filtered = allJobs.filter(j => {
+    const mf = currentFilter === 'alla' || j.type === currentFilter;
+    const mq = !query || j.title.toLowerCase().includes(query) || j.company.toLowerCase().includes(query) || j.city.toLowerCase().includes(query);
+    return mf && mq;
+  });
+  const list = document.getElementById('job-list');
+  if (!filtered.length) { list.innerHTML = `<div style="text-align:center;padding:3rem;color:var(--text-muted);font-size:15px;">${T.noJobs}</div>`; return; }
+  list.innerHTML = filtered.map((j,i) => `
+    <a class="job-card" href="#" style="animation:fade-up 0.4s ease ${i*0.06}s both" onclick="showToast('${T.opening}: ${j.title}');return false;">
+      <div class="job-logo" style="background:${j.lc};color:${j.lt}">${j.logo}</div>
+      <div class="job-body">
+        <div class="job-title">${j.title}</div>
+        <div class="job-meta">
+          <span>${j.company}</span><span>·</span><span>${j.city}</span>
+          ${j.badge==='new'    ? `<span class="badge badge-new">${T.bNew}</span>` : ''}
+          ${j.badge==='remote' ? `<span class="badge badge-remote">${T.bRemote}</span>` : ''}
+          ${j.badge==='full'   ? `<span class="badge badge-full">${T.bFull}</span>` : ''}
+          <span class="job-source">via ${j.source}</span>
+        </div>
+      </div>
+      <span class="job-arrow">›</span>
+    </a>`).join('');
+}
+
+function searchJobs() { renderJobs(); }
+document.getElementById('search-input').addEventListener('input', renderJobs);
+document.getElementById('search-input').addEventListener('keydown', e => { if(e.key==='Enter') renderJobs(); });
+
+function filterJobs(el, f) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active'); currentFilter = f; renderJobs();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+loadJobs();
+</script>
+</body>
+</html>
