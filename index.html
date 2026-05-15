@@ -1,413 +1,290 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jobbtorget</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --blue:#2563EB;--blue-hover:#1D4ED8;--blue-light:#EFF6FF;
-  --text:#111827;--text2:#374151;--text3:#6B7280;--text4:#9CA3AF;
-  --bg:#FFFFFF;--bg2:#F9FAFB;--bg3:#F3F4F6;
-  --border:#E5E7EB;--border2:#D1D5DB;
-  --radius:8px;--radius-sm:6px;--pill:999px;
-}
-html{scroll-behavior:smooth;font-size:16px}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+    <meta name="viewport" content="width=device-width, initial-scale=0.75, maximum-scale=5.0, user-scalable=yes" />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-S72LBY47R8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', "G-S72LBY47R8");
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Pastebin.com - Not Found (#404)</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="description" content="Pastebin.com is the number one paste tool since 2002. Pastebin is a website where you can store text online for a set period of time." />
+    <meta property="og:description" content="Pastebin.com is the number one paste tool since 2002. Pastebin is a website where you can store text online for a set period of time." />
+            <meta property="fb:app_id" content="231493360234820" />
+    <meta property="og:title" content="Pastebin.com - Not Found (#404)" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://pastebin.com/raw/https://pastebin.com/MY5EMWi6" />
+    <meta property="og:image" content="https://pastebin.com/i/facebook.png" />
+    <meta property="og:site_name" content="Pastebin" />
+    <meta name="google-site-verification" content="jkUAIOE8owUXu8UXIhRLB9oHJsWBfOgJbZzncqHoF4A" />
+    <link rel="canonical" href="https://pastebin.com/raw/https://pastebin.com/MY5EMWi6" />
+        <meta name="csrf-param" content="_csrf-frontend">
+<meta name="csrf-token" content="Xu8IatZPwja_OuXzm7_bjDXFpKXYdZU0H4yUWP_yAfcT3kAvtX_yQuoLq6Drkoj2bLD-lJoBzQQpvqwwjJN2tA==">
 
-/* ENTRY */
-#entry{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;transition:opacity 0.4s ease,transform 0.4s ease}
-#entry.leaving{opacity:0;transform:translateY(-6px);pointer-events:none}
-.entry-nav{height:56px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2rem}
-.entry-logo{font-size:15px;font-weight:600;color:var(--text);letter-spacing:-0.3px;display:flex;align-items:center;gap:6px}
-.entry-logo-dot{width:7px;height:7px;background:var(--blue);border-radius:2px}
-.entry-langs{display:flex;gap:2px}
-.elang{padding:4px 10px;border-radius:var(--radius-sm);border:none;background:transparent;color:var(--text3);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all 0.15s}
-.elang:hover{background:var(--bg3);color:var(--text)}
-.elang.active{background:var(--blue-light);color:var(--blue)}
+<link href="/assets/c80611c4/css/bootstrap.min.css" rel="stylesheet">
+<link href="/assets/d65ff796/dist/bootstrap-tagsinput.css" rel="stylesheet">        
+<link href="/themes/pastebin/css/vendors.bundle.css?30d6ece6979ee0cf5531" rel="stylesheet">
+<link href="/themes/pastebin/css/app.bundle.css?30d6ece6979ee0cf5531" rel="stylesheet">
+    </head>
+<body class="night-auto " data-pr="EykQt2a9" data-pa="" data-sar="1" data-abd="1" data-bd="1">
 
-.entry-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
-.entry-kicker{font-size:12px;font-weight:500;color:var(--blue);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:1.5rem;opacity:0;animation:up 0.5s ease 0.1s forwards}
-.entry-h{font-size:clamp(2rem,5vw,3.5rem);font-weight:600;color:var(--text);line-height:1.15;letter-spacing:-0.02em;margin-bottom:0.75rem;opacity:0;animation:up 0.5s ease 0.2s forwards}
-.entry-sub{font-size:16px;color:var(--text3);margin-bottom:2.5rem;line-height:1.6;max-width:480px;opacity:0;animation:up 0.5s ease 0.3s forwards}
-.entry-sub strong{color:var(--text2);font-weight:500}
 
-.entry-search{width:100%;max-width:520px;opacity:0;animation:up 0.5s ease 0.4s forwards}
-.entry-search-box{display:flex;border:1.5px solid var(--border2);border-radius:var(--radius);overflow:hidden;background:var(--bg);transition:border-color 0.2s,box-shadow 0.2s}
-.entry-search-box:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,0.1)}
-.entry-search-box input{flex:1;border:none;outline:none;padding:12px 16px;font-size:15px;font-family:inherit;color:var(--text);background:transparent}
-.entry-search-box input::placeholder{color:var(--text4)}
-.entry-search-btn{background:var(--blue);color:#fff;border:none;padding:0 24px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;transition:background 0.15s;display:flex;align-items:center;gap:6px}
-.entry-search-btn:hover{background:var(--blue-hover)}
+<svg style="height: 0; width: 0; position: absolute; visibility: hidden" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="add" viewBox="0 0 1024 1024"><path fill="#ccc" d="M512 16C238 16 16 238 16 512s222 496 496 496 496-222 496-496S786 16 512 16z m288 552c0 13.2-10.8 24-24 24h-184v184c0 13.2-10.8 24-24 24h-112c-13.2 0-24-10.8-24-24v-184h-184c-13.2 0-24-10.8-24-24v-112c0-13.2 10.8-24 24-24h184v-184c0-13.2 10.8-24 24-24h112c13.2 0 24 10.8 24 24v184h184c13.2 0 24 10.8 24 24v112z"/></symbol>
+    <symbol id="search" viewBox="0 0 512 512"><path fill="#ccc" d="M354.2,216c0-38.2-13-70.7-40-97.7c-27-27-59.6-40-97.7-40s-70.7,13-97.7,40s-40,59.6-40,97.7 s13,70.7,40,97.7s59.6,40,97.7,40s70.7-13,97.7-40C340.2,285.8,354.2,253.2,354.2,216z M511.5,472c0,10.2-3.7,19.5-12.1,27.9 c-8.4,8.4-16.8,12.1-27.9,12.1c-11.2,0-20.5-3.7-27.9-12.1L339.3,393.8c-37.2,26.1-78.2,38.2-122.9,38.2 c-29.8,0-57.7-5.6-83.8-16.8c-27-11.2-50.3-27-68.9-46.5s-34.4-42.8-46.5-68.9C6.1,272.8,0.5,244.8,0.5,216s5.6-57.7,16.8-83.8 c11.2-27,27-50.3,46.5-68.9s42.8-34.4,68.9-46.5C159.7,5.6,187.6,0,216.4,0s57.7,5.6,83.8,16.8c27,11.2,50.3,27,68.9,46.5 c18.6,19.5,34.4,42.8,46.5,68.9c11.2,27,16.8,54.9,16.8,83.8c0,44.7-13,85.6-38.2,122.9L499.4,444 C507.8,451.5,511.5,460.8,511.5,472z"/></g></symbol>
+</svg>
+<div class="wrap">
 
-.entry-shortcuts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;justify-content:center;opacity:0;animation:up 0.5s ease 0.5s forwards}
-.eshort{padding:5px 14px;border-radius:var(--pill);border:1px solid var(--border);background:var(--bg);color:var(--text2);font-size:13px;cursor:pointer;font-family:inherit;transition:all 0.15s}
-.eshort:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+        
+        
+<div class="header">
+    <div class="container">
+        <div class="header__container">
 
-.entry-browse{margin-top:1.5rem;font-size:13px;color:var(--text4);cursor:pointer;transition:color 0.15s;opacity:0;animation:up 0.5s ease 0.6s forwards}
-.entry-browse:hover{color:var(--blue)}
-.entry-browse-arrow{display:inline-block;transition:transform 0.15s}
-.entry-browse:hover .entry-browse-arrow{transform:translateX(3px)}
+                        <div class="header__left">
+                <a class="header__logo" href="/">
+                    Pastebin                </a>
 
-.entry-foot{padding:1.5rem 2rem;border-top:1px solid var(--border);display:flex;justify-content:center;gap:2rem}
-.entry-stat{font-size:12px;color:var(--text4);display:flex;align-items:center;gap:5px}
-.entry-stat-dot{width:5px;height:5px;border-radius:50%;background:#22C55E}
+                <div class="header__links h_1024">
+                    
+                                        <a href="/doc_api">API</a>
+                    <a href="/tools">tools</a>
+                    <a href="/faq">faq</a>
+                                    </div>
 
-@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+                <a class="header__btn" href="/">
+                    <span>paste</span>
+                </a>
 
-/* APP */
-#app{display:none}
-.topbar{height:56px;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:1.5rem;position:sticky;top:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);z-index:50}
-.app-logo{font-size:15px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:6px;flex-shrink:0;letter-spacing:-0.3px}
-.app-logo-dot{width:7px;height:7px;background:var(--blue);border-radius:2px}
+                
+                <div class="header__search">
+                                            <form id="w0" class="search_form" action="https://pastebin.com/search" method="get">
+                            
+<input type="text" id="q" class="search_input" name="q" maxlength="128" placeholder="Search...">
 
-.top-search{flex:1;max-width:440px;display:flex;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;background:var(--bg2);transition:border-color 0.15s}
-.top-search:focus-within{border-color:var(--blue);background:var(--bg)}
-.top-search input{flex:1;border:none;outline:none;padding:8px 12px;font-size:14px;font-family:inherit;background:transparent;color:var(--text)}
-.top-search input::placeholder{color:var(--text4)}
-.top-search button{background:transparent;border:none;border-left:1px solid var(--border);padding:0 14px;cursor:pointer;color:var(--text3);font-size:13px;font-weight:500;font-family:inherit;transition:background 0.15s}
-.top-search button:hover{background:var(--bg3)}
 
-.top-langs{display:flex;gap:2px;margin-left:auto}
-.tlang{padding:4px 8px;border-radius:var(--radius-sm);border:none;background:transparent;color:var(--text3);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all 0.15s}
-.tlang:hover{background:var(--bg3);color:var(--text)}
-.tlang.active{background:var(--blue-light);color:var(--blue)}
 
-.layout{max-width:1080px;margin:0 auto;padding:1.5rem 2rem 4rem;display:grid;grid-template-columns:200px 1fr;gap:2rem}
+                            <button type="submit" class="search_btn" aria-label="Search"><svg class="icon search"><use xlink:href="#search"></use></svg></button>
+                        </form>                                    </div>
 
-/* SIDEBAR */
-.sidebar{position:sticky;top:72px;height:fit-content}
-.sb-section{margin-bottom:1.5rem}
-.sb-label{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text4);margin-bottom:8px}
-.sb-items{display:flex;flex-direction:column;gap:1px}
-.sb-item{padding:6px 8px;border-radius:var(--radius-sm);cursor:pointer;font-size:13px;color:var(--text2);transition:all 0.12s;display:flex;justify-content:space-between;align-items:center;border:none;background:transparent;font-family:inherit;width:100%;text-align:left}
-.sb-item:hover{background:var(--bg2);color:var(--text)}
-.sb-item.active{background:var(--blue-light);color:var(--blue);font-weight:500}
+            </div>
 
-.aq-wrap{margin-bottom:1rem}
-.aq-badge{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;background:var(--blue-light);border-radius:var(--radius-sm);font-size:13px;color:var(--blue)}
-.aq-x{cursor:pointer;font-size:16px;line-height:1;color:var(--blue);opacity:0.6;transition:opacity 0.15s;border:none;background:none;font-family:inherit}
-.aq-x:hover{opacity:1}
+                        <div class="header__right">
 
-/* MAIN */
-.results-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
-.results-count{font-size:13px;color:var(--text3)}
-.results-count strong{color:var(--text);font-weight:500}
+                                    <div class="header_sign">
+                        <a href="/login" class="btn-sign sign-in">Login</a>
+                        <a href="/signup" class="btn-sign sign-up">Sign up</a>
+                    </div>
+                
+            </div>
 
-.job-list{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.job-card{display:flex;align-items:flex-start;gap:12px;padding:1rem 1.25rem;background:var(--bg);border-bottom:1px solid var(--border);text-decoration:none;color:inherit;transition:background 0.12s;cursor:pointer}
-.job-card:last-child{border-bottom:none}
-.job-card:hover{background:var(--bg2)}
-.job-logo{width:38px;height:38px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px;flex-shrink:0;border:1px solid var(--border)}
-.job-body{flex:1;min-width:0}
-.job-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.job-meta{font-size:12px;color:var(--text3);display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:5px}
-.job-tags{display:flex;gap:5px;flex-wrap:wrap}
-.jtag{font-size:11px;padding:1px 7px;border-radius:var(--pill);border:1px solid var(--border);color:var(--text3);background:var(--bg2);font-weight:400}
-.jtag-new{border-color:#BFDBFE;color:#1D4ED8;background:#EFF6FF}
-.jtag-remote{border-color:#BBF7D0;color:#15803D;background:#F0FDF4}
-.job-right{text-align:right;flex-shrink:0;font-size:11px;color:var(--text4);min-width:60px}
-
-.skel{background:linear-gradient(90deg,var(--bg2)25%,var(--border)50%,var(--bg2)75%);background-size:200% 100%;animation:sk 1.3s infinite;border-radius:4px}
-@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.skel-card{display:flex;gap:12px;padding:1rem 1.25rem;background:var(--bg);border-bottom:1px solid var(--border)}
-
-.pag{display:flex;justify-content:center;gap:4px;margin-top:1.5rem}
-.pag-btn{width:34px;height:34px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg);color:var(--text3);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:all 0.12s;display:flex;align-items:center;justify-content:center}
-.pag-btn:hover{border-color:var(--blue);color:var(--blue)}
-.pag-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
-
-.empty{padding:4rem 2rem;text-align:center}
-.empty-title{font-size:16px;font-weight:500;color:var(--text);margin-bottom:6px}
-.empty-sub{font-size:14px;color:var(--text3)}
-
-footer{text-align:center;padding:1.5rem;font-size:12px;color:var(--text4);border-top:1px solid var(--border)}
-
-@media(max-width:700px){
-  .layout{grid-template-columns:1fr;padding:1rem}
-  .sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-  .sb-section{margin-bottom:0}
-  .sb-items{flex-direction:row;flex-wrap:wrap;gap:4px}
-  .sb-item{width:auto}
-  .top-langs{display:none}
-}
-</style>
-</head>
-<body>
-
-<!-- ENTRY -->
-<div id="entry">
-  <nav class="entry-nav">
-    <div class="entry-logo"><div class="entry-logo-dot"></div>Jobbtorget</div>
-    <div class="entry-langs" id="entry-langs">
-      <button class="elang active" data-lang="sv">SV</button>
-      <button class="elang" data-lang="en">EN</button>
-      <button class="elang" data-lang="ar">AR</button>
-      <button class="elang" data-lang="so">SO</button>
-      <button class="elang" data-lang="es">ES</button>
-      <button class="elang" data-lang="fa">FA</button>
+        </div>
     </div>
-  </nav>
 
-  <div class="entry-body">
-    <div class="entry-kicker" id="e-kicker">Alla jobb i Sverige</div>
-    <h1 class="entry-h" id="e-h">Vad letar du efter?</h1>
-    <p class="entry-sub" id="e-sub"><strong id="e-count">48 000+</strong> aktiva annonser. Uppdateras kontinuerligt.</p>
+</div>
+        
 
-    <div class="entry-search">
-      <div class="entry-search-box">
-        <input id="entry-input" type="text" placeholder="Jobbtitel, ort eller bransch..." autocomplete="off" />
-        <button class="entry-search-btn" onclick="doEntry()">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          <span id="e-btn">Sök</span>
-        </button>
-      </div>
-      <div class="entry-shortcuts" id="entry-shortcuts">
-        <button class="eshort" onclick="quickSearch('Lager')">Lager</button>
-        <button class="eshort" onclick="quickSearch('Vård')">Vård & Omsorg</button>
-        <button class="eshort" onclick="quickSearch('IT')">IT</button>
-        <button class="eshort" onclick="quickSearch('Butik')">Butik & Handel</button>
-        <button class="eshort" onclick="quickSearch('Transport')">Transport</button>
-        <button class="eshort" onclick="quickSearch('Bygg')">Bygg</button>
-        <button class="eshort" onclick="quickSearch('Restaurang')">Restaurang</button>
-        <button class="eshort" onclick="quickSearch('Kontor')">Kontor & Admin</button>
-      </div>
-      <div class="entry-browse" onclick="openApp('')" id="e-browse">Bläddra alla jobb <span class="entry-browse-arrow">→</span></div>
+    <div class="container">
+        <div class="content">
+
+                        
+                        
+                                    
+            
+            
+<div class="page -top -right">
+
+    <div class="content__title">Not Found (#404)</div>
+    <div class="content__text">
+        <div class="notice -no-margin">
+            Page not found.        </div>
     </div>
-  </div>
 
-  <div class="entry-foot">
-    <div class="entry-stat"><div class="entry-stat-dot"></div><span id="e-stat">Uppdateras i realtid</span></div>
-    <div class="entry-stat">Platsbanken · Junic · One Partner</div>
-  </div>
+</div>
+            <div style="clear: both;"></div>
+
+                                </div>
+
+        <div class="sidebar h_1024">
+            
+
+
+
+                
+    <div class="sidebar__title">
+        <a href="/archive">Public Pastes</a>
+    </div>
+    <ul class="sidebar__menu">
+
+                    <li>
+                <a href="/emsXqjBi?source=public_pastes">Untitled</a>
+                <div class="details">
+                    
+                    37 min ago
+                    | 16.76 KB                </div>
+            </li>
+                    <li>
+                <a href="/1TkJFrq8?source=public_pastes">NovaGente CLS reccomendations</a>
+                <div class="details">
+                    
+                    1 hour ago
+                    | 5.12 KB                </div>
+            </li>
+                    <li>
+                <a href="/ScWBH7sv?source=public_pastes">Untitled</a>
+                <div class="details">
+                    
+                    1 hour ago
+                    | 10.39 KB                </div>
+            </li>
+                    <li>
+                <a href="/z1SX4SW5?source=public_pastes">SOCIAL_AdTechFX LITE - Client Communication -...</a>
+                <div class="details">
+                    
+                    1 hour ago
+                    | 1.53 KB                </div>
+            </li>
+                    <li>
+                <a href="/L2ewrBBj?source=public_pastes">AdTechFX Lite - Client Strategy Call Request</a>
+                <div class="details">
+                    
+                    1 hour ago
+                    | 1.79 KB                </div>
+            </li>
+                    <li>
+                <a href="/kMbWRmGw?source=public_pastes">Untitled</a>
+                <div class="details">
+                    
+                    2 hours ago
+                    | 28.09 KB                </div>
+            </li>
+                    <li>
+                <a href="/8z5GztXL?source=public_pastes">Untitled</a>
+                <div class="details">
+                    
+                    4 hours ago
+                    | 14.13 KB                </div>
+            </li>
+                    <li>
+                <a href="/RJKZF9WU?source=public_pastes">SomesnbHyperlinkStuff</a>
+                <div class="details">
+                                            VBScript |
+                    
+                    4 hours ago
+                    | 2.21 KB                </div>
+            </li>
+        
+    </ul>
+            
+
+    <div class="sidebar__sticky -on">
+                    </div>
+        </div>
+    </div>
 </div>
 
-<!-- APP -->
-<div id="app">
-  <div class="topbar">
-    <div class="app-logo" onclick="goHome()"><div class="app-logo-dot"></div>Jobbtorget</div>
-    <div class="top-search">
-      <input type="text" id="app-search" placeholder="Sök jobb, ort eller bransch..." />
-      <button onclick="appSearch()">Sök</button>
-    </div>
-    <div class="top-langs" id="top-langs">
-      <button class="tlang active" data-lang="sv">SV</button>
-      <button class="tlang" data-lang="en">EN</button>
-      <button class="tlang" data-lang="ar">AR</button>
-      <button class="tlang" data-lang="so">SO</button>
-      <button class="tlang" data-lang="es">ES</button>
-      <button class="tlang" data-lang="fa">FA</button>
-    </div>
-  </div>
 
-  <div class="layout">
-    <aside class="sidebar">
-      <div id="aq-wrap" class="aq-wrap" style="display:none"></div>
-
-      <div class="sb-section">
-        <div class="sb-label" id="sl-type">Typ</div>
-        <div class="sb-items" id="type-filters">
-          <button class="sb-item active" onclick="setType('alla',this)" id="ft-alla">Alla typer</button>
-          <button class="sb-item" onclick="setType('heltid',this)" id="ft-heltid">Heltid</button>
-          <button class="sb-item" onclick="setType('deltid',this)" id="ft-deltid">Deltid</button>
-          <button class="sb-item" onclick="setType('distans',this)" id="ft-distans">Distans</button>
-        </div>
-      </div>
-
-      <div class="sb-section">
-        <div class="sb-label" id="sl-city">Ort</div>
-        <div class="sb-items" id="city-filters">
-          <button class="sb-item active" onclick="setCity('',this)">Alla orter</button>
-        </div>
-      </div>
-    </aside>
-
-    <main>
-      <div class="results-bar">
-        <div class="results-count" id="results-count"></div>
-      </div>
-      <div class="job-list" id="job-list">
-        <div class="skel-card"><div class="skel" style="width:38px;height:38px;flex-shrink:0;border-radius:6px"></div><div style="flex:1"><div class="skel" style="height:13px;width:55%;margin-bottom:7px"></div><div class="skel" style="height:11px;width:38%"></div></div></div>
-        <div class="skel-card"><div class="skel" style="width:38px;height:38px;flex-shrink:0;border-radius:6px"></div><div style="flex:1"><div class="skel" style="height:13px;width:65%;margin-bottom:7px"></div><div class="skel" style="height:11px;width:42%"></div></div></div>
-        <div class="skel-card"><div class="skel" style="width:38px;height:38px;flex-shrink:0;border-radius:6px"></div><div style="flex:1"><div class="skel" style="height:13px;width:48%;margin-bottom:7px"></div><div class="skel" style="height:11px;width:35%"></div></div></div>
-        <div class="skel-card" style="border-bottom:none"><div class="skel" style="width:38px;height:38px;flex-shrink:0;border-radius:6px"></div><div style="flex:1"><div class="skel" style="height:13px;width:60%;margin-bottom:7px"></div><div class="skel" style="height:11px;width:40%"></div></div></div>
-      </div>
-      <div class="pag" id="pagination"></div>
-      <footer>© 2026 Jobbtorget · <a href="#" style="color:var(--text4)">Integritetspolicy</a></footer>
-    </main>
-  </div>
+    
+<div class="top-footer">
+    <a class="icon-link -size-24-24 -chrome" href="/tools#chrome" title="Google Chrome Extension"></a>
+    <a class="icon-link -size-24-24 -firefox" href="/tools#firefox" title="Firefox Extension"></a>
+    <a class="icon-link -size-24-24 -iphone" href="/tools#iphone" title="iPhone/iPad Application"></a>
+    <a class="icon-link -size-24-24 -windows" href="/tools#windows" title="Windows Desktop Application"></a>
+    <a class="icon-link -size-24-24 -android" href="/tools#android" title="Android Application"></a>
+    <a class="icon-link -size-24-24 -macos" href="/tools#macos" title="MacOS X Widget"></a>
+    <a class="icon-link -size-24-24 -opera" href="/tools#opera" title="Opera Extension"></a>
+    <a class="icon-link -size-24-24 -unix" href="/tools#pastebincl" title="Linux Application"></a>
 </div>
 
+<footer class="footer">
+    <div class="container">
+        <div class="footer__container">
+
+            <div class="footer__left">
+                <a href="/">create new paste</a> <span class="footer__devider">&nbsp;/&nbsp;</span>
+                                <a href="/languages">syntax languages</a> <span class="footer__devider">&nbsp;/&nbsp;</span>
+                <a href="/archive">archive</a> <span class="footer__devider">&nbsp;/&nbsp;</span>
+                <a href="/faq">faq</a> <span class="footer__devider">&nbsp;/&nbsp;</span>
+                <a href="/tools">tools</a> <span class="footer__devider">&nbsp;/&nbsp;</span>
+                <a href="/night_mode">night mode</a> <span class="footer__devider">&nbsp;/&nbsp;</span>
+                <a href="/doc_api">api</a> <span class="footer__devider">&nbsp;/&nbsp;</span>
+                <a href="/doc_scraping_api">scraping api</a> <span class="footer__devider">&nbsp;/&nbsp;</span>
+                <a href="/news">news</a> <span class="footer__devider">&nbsp;/&nbsp;</span>
+                <a href="/pro" class="pro">pro</a>
+
+                <br>
+                <a href="/doc_privacy_statement">privacy statement</a> <span class="footer__devider">&nbsp;/&nbsp;</span>
+                <a href="/doc_cookies_policy">cookies policy</a> <span class="footer__devider">&nbsp;/&nbsp;</span>
+                <a href="/doc_terms_of_service">terms of service</a><span class="footer__devider">&nbsp;/&nbsp;</span>
+                <a href="/doc_security_disclosure">security disclosure</a> <span class="footer__devider">&nbsp;/&nbsp;</span>
+                <a href="/dmca">dmca</a> <span class="footer__devider">&nbsp;/&nbsp;</span>
+                <a href="/report-abuse">report abuse</a> <span class="footer__devider">&nbsp;/&nbsp;</span>
+                <a href="/contact">contact</a>
+
+                <br>
+
+                                
+                <br>
+
+                
+<span class="footer__bottom h_800">
+    By using Pastebin.com you agree to our <a href="/doc_cookies_policy">cookies policy</a> to enhance your experience.
+    <br>
+    Site design &amp; logo &copy; 2026 Pastebin</span>
+            </div>
+
+            <div class="footer__right h_1024">
+                                    <a class="icon-link -size-40-40 -facebook-circle" href="https://facebook.com/pastebin" rel="nofollow" title="Like us on Facebook" target="_blank"></a>
+                    <a class="icon-link -size-40-40 -twitter-circle" href="https://twitter.com/pastebin" rel="nofollow" title="Follow us on Twitter" target="_blank"></a>
+                            </div>
+
+        </div>
+    </div>
+</footer>
+    
+
+
+    
+<div class="popup-container">
+
+                <div class="popup-box -cookies" data-name="l2c_1">
+            We use cookies for various purposes including analytics. By continuing to use Pastebin, you agree to our use of cookies as described in the <a href="/doc_cookies_policy">Cookies Policy</a>.            &nbsp;<span class="cookie-button js-close-cookies">OK, I Understand</span>
+        </div>
+    
+                <div class="popup-box -pro" data-name="l2c_2_pg">
+            <div class="pro-promo-img">
+                <a href="/signup" aria-label="Sign Up">
+                    <img src="/themes/pastebin/img/hello.webp" alt=""/>
+                </a>
+            </div>
+            <div class="pro-promo-text">
+                Not a member of Pastebin yet?<br/>
+                <a href="/signup"><b>Sign Up</b></a>, it unlocks many cool features!            </div>
+            <div class="close js-close-pro-guest" title="Close Me">&nbsp;</div>
+        </div>
+    
+    
+    
+</div>
+    
+
+<span class="cd-top"></span>
+
+<script src="/assets/9ce1885/jquery.min.js"></script>
+<script src="/assets/f04f76b8/yii.js"></script>
+<script src="/assets/d65ff796/dist/bootstrap-tagsinput.js"></script>
 <script>
-const TR={
-  sv:{kicker:'Alla jobb i Sverige',h:'Vad letar du efter?',sub:'aktiva annonser. Uppdateras kontinuerligt.',btn:'Sök',ph:'Jobbtitel, ort eller bransch...',appPh:'Sök jobb, ort eller bransch...',slType:'Typ',slCity:'Ort',ftAlla:'Alla typer',ftHeltid:'Heltid',ftDeltid:'Deltid',ftDistans:'Distans',allCities:'Alla orter',bNew:'Idag',bRemote:'Distans',noJobs:'Inga jobb hittades',noJobsSub:'Prova en annan sökning',results:'resultat',browse:'Bläddra alla jobb →'},
-  en:{kicker:'All jobs in Sweden',h:'What are you looking for?',sub:'active listings. Updated continuously.',btn:'Search',ph:'Job title, city or industry...',appPh:'Search jobs, city or industry...',slType:'Type',slCity:'Location',ftAlla:'All types',ftHeltid:'Full-time',ftDeltid:'Part-time',ftDistans:'Remote',allCities:'All locations',bNew:'Today',bRemote:'Remote',noJobs:'No jobs found',noJobsSub:'Try a different search',results:'results',browse:'Browse all jobs →'},
-  ar:{kicker:'كل الوظائف في السويد',h:'ماذا تبحث عنه؟',sub:'إعلان نشط. يُحدَّث باستمرار.',btn:'بحث',ph:'مسمى وظيفي أو مدينة...',appPh:'ابحث...',slType:'النوع',slCity:'المدينة',ftAlla:'الكل',ftHeltid:'دوام كامل',ftDeltid:'دوام جزئي',ftDistans:'عن بُعد',allCities:'كل المدن',bNew:'اليوم',bRemote:'عن بُعد',noJobs:'لا توجد وظائف',noJobsSub:'جرّب بحثاً آخر',results:'نتيجة',browse:'تصفح كل ال��ظائف →'},
-  so:{kicker:'Dhammaan shaqooyinka Iswiidhan',h:'Maxaad dooneysaa?',sub:'xayeysiis firfircoon. Waa la cusbooneysiiyaa.',btn:'Raadi',ph:'Cinwaanka shaqada ama magaalada...',appPh:'Raadi...',slType:'Nooca',slCity:'Magaalo',ftAlla:'Dhammaan',ftHeltid:'Waqti buuxa',ftDeltid:'Waqti qaarkiis',ftDistans:'Fog',allCities:'Dhammaan magaalooyinka',bNew:'Maanta',bRemote:'Fog',noJobs:'Shaqo lama helin',noJobsSub:'Isku day raadin kale',results:'natiijo',browse:'Arag dhammaan shaqooyinka →'},
-  es:{kicker:'Todos los empleos en Suecia',h:'¿Qué estás buscando?',sub:'anuncios activos. Actualizado continuamente.',btn:'Buscar',ph:'Título, ciudad o sector...',appPh:'Buscar...',slType:'Tipo',slCity:'Ciudad',ftAlla:'Todos',ftHeltid:'Tiempo completo',ftDeltid:'Tiempo parcial',ftDistans:'Remoto',allCities:'Todas las ciudades',bNew:'Hoy',bRemote:'Remoto',noJobs:'No se encontraron empleos',noJobsSub:'Intenta otra búsqueda',results:'resultados',browse:'Ver todos los empleos →'},
-  fa:{kicker:'همه مشاغل در سوئد',h:'دنبال چه می‌گردید؟',sub:'آگهی فعال. به‌روزرسانی مستمر.',btn:'جستجو',ph:'عنوان شغل یا شهر...',appPh:'جستجو...',slType:'نوع',slCity:'شهر',ftAlla:'همه',ftHeltid:'تمام وقت',ftDeltid:'پاره وقت',ftDistans:'از راه دور',allCities:'هم�� شهرها',bNew:'امروز',bRemote:'از راه دور',noJobs:'شغلی یافت نشد',noJobsSub:'جستجوی دیگری امتحان کنید',results:'نتیجه',browse:'مشاهده همه مشاغل →'}
-};
-let lang='sv';
-const T=()=>TR[lang];
-
-function applyLang(l){
-  lang=l;
-  const t=T(),rtl=['ar','fa'].includes(l);
-  document.documentElement.lang=l;document.documentElement.dir=rtl?'rtl':'ltr';
-  document.getElementById('e-kicker').textContent=t.kicker;
-  document.getElementById('e-h').textContent=t.h;
-  document.getElementById('e-btn').textContent=t.btn;
-  document.getElementById('entry-input').placeholder=t.ph;
-  document.getElementById('app-search').placeholder=t.appPh;
-  document.getElementById('sl-type').textContent=t.slType;
-  document.getElementById('sl-city').textContent=t.slCity;
-  document.getElementById('ft-alla').textContent=t.ftAlla;
-  document.getElementById('ft-heltid').textContent=t.ftHeltid;
-  document.getElementById('ft-deltid').textContent=t.ftDeltid;
-  document.getElementById('ft-distans').textContent=t.ftDistans;
-  document.getElementById('e-browse').innerHTML=t.browse;
-  if(document.getElementById('app').style.display!=='none')loadJobs();
-}
-
-document.getElementById('entry-langs').addEventListener('click',e=>{
-  const b=e.target.closest('.elang');if(!b)return;
-  document.querySelectorAll('.elang,.tlang').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll(`[data-lang="${b.dataset.lang}"]`).forEach(x=>x.classList.add('active'));
-  applyLang(b.dataset.lang);
-});
-document.getElementById('top-langs').addEventListener('click',e=>{
-  const b=e.target.closest('.tlang');if(!b)return;
-  document.querySelectorAll('.elang,.tlang').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll(`[data-lang="${b.dataset.lang}"]`).forEach(x=>x.classList.add('active'));
-  applyLang(b.dataset.lang);
-});
-
-document.getElementById('entry-input').addEventListener('keydown',e=>{if(e.key==='Enter')doEntry();});
-function doEntry(){const v=document.getElementById('entry-input').value.trim();openApp(v);}
-function quickSearch(q){openApp(q);}
-
-let appFilters={q:'',city:'',type:'alla'};
-let currentPage=1;
-
-function openApp(q){
-  appFilters={q,city:'',type:'alla'};currentPage=1;
-  document.getElementById('entry').classList.add('leaving');
-  setTimeout(()=>{
-    document.getElementById('entry').style.display='none';
-    document.getElementById('app').style.display='block';
-    if(q)document.getElementById('app-search').value=q;
-    loadJobs();loadCityFilters();
-  },400);
-}
-function goHome(){
-  document.getElementById('entry').style.display='flex';
-  document.getElementById('entry').classList.remove('leaving');
-  document.getElementById('app').style.display='none';
-}
-function setType(type,el){
-  appFilters.type=type;currentPage=1;
-  document.querySelectorAll('#type-filters .sb-item').forEach(x=>x.classList.remove('active'));
-  el.classList.add('active');loadJobs();
-}
-function setCity(city,el){
-  appFilters.city=city;currentPage=1;
-  document.querySelectorAll('#city-filters .sb-item').forEach(x=>x.classList.remove('active'));
-  el.classList.add('active');loadJobs();
-}
-function appSearch(){appFilters.q=document.getElementById('app-search').value.trim();currentPage=1;loadJobs();}
-document.getElementById('app-search').addEventListener('keydown',e=>{if(e.key==='Enter')appSearch();});
-function clearQ(){appFilters.q='';document.getElementById('app-search').value='';currentPage=1;loadJobs();}
-
-const CP=[['#EFF6FF','#1D4ED8'],['#F0FDF4','#15803D'],['#FFF7ED','#C2410C'],['#FDF4FF','#7E22CE'],['#F0FDFA','#0F766E'],['#FEF9C3','#854D0E'],['#FFF1F2','#BE123C'],['#F5F5F5','#404040']];
-const lc=n=>CP[(n.charCodeAt(0)||0)%CP.length][0];
-const lt=n=>CP[(n.charCodeAt(0)||0)%CP.length][1];
-const ini=n=>n.trim().split(/\s+/).slice(0,2).map(w=>(w[0]||'').toUpperCase()).join('')||'AF';
-
-async function loadJobs(){
-  const t=T();
-  const params=new URLSearchParams({page:currentPage});
-  if(appFilters.type&&appFilters.type!=='alla')params.set('type',appFilters.type);
-  if(appFilters.city)params.set('city',appFilters.city);
-  if(appFilters.q)params.set('q',appFilters.q);
-
-  const aqw=document.getElementById('aq-wrap');
-  if(appFilters.q){
-    aqw.style.display='block';
-    aqw.innerHTML=`<div class="aq-badge">"${appFilters.q}"<button class="aq-x" onclick="clearQ()">×</button></div>`;
-  } else { aqw.style.display='none'; }
-
-  try{
-    const res=await fetch('/api/jobs?'+params);
-    const data=await res.json();
-    document.getElementById('results-count').innerHTML=`<strong>${(data.total||0).toLocaleString('sv-SE')}</strong> ${t.results}`;
-    if(data.stats?.total){document.getElementById('e-count').textContent=(data.stats.total).toLocaleString('sv-SE')+'+';}
-    renderJobs(data.jobs||[],data.total||0,data.pages||1,t);
-  }catch(e){
-    document.getElementById('job-list').innerHTML=`<div class="empty"><div class="empty-title">${t.noJobs}</div><p class="empty-sub">${t.noJobsSub}</p></div>`;
-  }
-}
-
-function renderJobs(jobs,total,pages,t){
-  const list=document.getElementById('job-list');
-  if(!jobs.length){
-    list.innerHTML=`<div class="empty"><div class="empty-title">${t.noJobs}</div><p class="empty-sub">${t.noJobsSub}</p></div>`;
-    document.getElementById('pagination').innerHTML='';
-    return;
-  }
-  list.innerHTML=jobs.map(j=>{
-    const name=j.company||'';
-    const hasUrl=j.url&&j.url.startsWith('http');
-    const pub=j.published?new Date(j.published).toLocaleDateString('sv-SE',{day:'numeric',month:'short'}):'';
-    const dead=j.deadline?new Date(j.deadline).toLocaleDateString('sv-SE',{day:'numeric',month:'short'}):'';
-    return `<a class="job-card" ${hasUrl?`href="${j.url}" target="_blank" rel="noopener noreferrer"`:'href="#"'}>
-      <div class="job-logo" style="background:${lc(name)};color:${lt(name)}">${ini(name)}</div>
-      <div class="job-body">
-        <div class="job-title">${j.title}</div>
-        <div class="job-meta"><span>${j.company}</span><span>·</span><span>${j.city}</span></div>
-        <div class="job-tags">
-          <span class="jtag">${j.type==='deltid'?t.ftDeltid:j.type==='distans'?t.ftDistans:t.ftHeltid}</span>
-          ${j.badge==='new'?`<span class="jtag jtag-new">${t.bNew}</span>`:''}
-          ${j.type==='distans'?`<span class="jtag jtag-remote">${t.bRemote}</span>`:''}
-        </div>
-      </div>
-      <div class="job-right">${pub||''}<br>${dead?'Sista: '+dead:''}</div>
-    </a>`;
-  }).join('');
-
-  const pag=document.getElementById('pagination');
-  if(pages>1){
-    let h='';
-    const s=Math.max(1,currentPage-3),e2=Math.min(pages,currentPage+3);
-    if(s>1)h+=`<button class="pag-btn" onclick="goPage(1)">1</button><span style="padding:0 4px;color:var(--text4)">…</span>`;
-    for(let p=s;p<=e2;p++)h+=`<button class="pag-btn${p===currentPage?' active':''}" onclick="goPage(${p})">${p}</button>`;
-    if(e2<pages)h+=`<span style="padding:0 4px;color:var(--text4)">…</span><button class="pag-btn" onclick="goPage(${pages})">${pages}</button>`;
-    pag.innerHTML=h;
-  } else pag.innerHTML='';
-}
-
-function goPage(p){currentPage=p;loadJobs();window.scrollTo({top:0,behavior:'smooth'});}
-
-async function loadCityFilters(){
-  try{
-    const res=await fetch('/api/filters');
-    const {cities}=await res.json();
-    const t=T();
-    const el=document.getElementById('city-filters');
-    el.innerHTML=`<button class="sb-item active" onclick="setCity('',this)">${t.allCities}</button>`;
-    cities.slice(0,14).forEach(c=>{
-      const b=document.createElement('button');
-      b.className='sb-item';b.textContent=c;
-      b.onclick=()=>setCity(c,b);
-      el.appendChild(b);
-    });
-  }catch(e){}
-}
-
-fetch('/api/stats').then(r=>r.json()).then(d=>{
-  if(d.total)document.getElementById('e-count').textContent=d.total.toLocaleString('sv-SE')+'+';
-}).catch(()=>{});
+    const POST_EXPIRATION_NEVER = 'N';
+    const POST_EXPIRATION_BURN = 'B';
+    const POST_STATUS_PUBLIC = '0';
+    const POST_STATUS_UNLISTED = '1';
 </script>
+<script src="/themes/pastebin/js/vendors.bundle.js?30d6ece6979ee0cf5531"></script>
+<script src="/themes/pastebin/js/app.bundle.js?30d6ece6979ee0cf5531"></script>
+
 </body>
 </html>
